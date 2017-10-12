@@ -8,23 +8,24 @@ Created on Tue Oct 10 19:39:26 2017
 import numpy as np
 
 
+def sigmFact(alfa):
+    def sigm(s):
+        return 1/(1+np.exp(-alfa*s))
+    return sigm
 
 class perceptron:
-    def __init__(self,weights, bias, learnRate, activFunc):
+    def __init__(self, weights, learnRate, activFunc):
         self._weights=np.array(weights)
-        self._bias=bias
         self._learnRate=learnRate
         self._activFunc=activFunc
     def learn(self,inputValues,expectedValue):
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
         s=np.dot(self._weights,inputValues)
-        s+=self._bias
         s=self._activFunc(s)
         if s!=expectedValue:
             for i in range(len(self._weights)):
                 self._weights[i]+=self._learnRate*(expectedValue-s)*inputValues[i]
-            self._bias+=self._learnRate*(expectedValue-s)
     def analyze(self,inputValues):
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
