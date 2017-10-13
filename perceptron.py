@@ -52,6 +52,7 @@ class Perceptron:
         s=np.dot(self._weights,inputValues)
         self._val=self._activFunc(s)
         return self._val
+    """
     def processError(self,inputValues,expectedValue,learnRate=False):
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
@@ -61,10 +62,13 @@ class Perceptron:
         self._val=self._activFunc(s)
         self._error=(expectedValue-self._val)*self._activFuncDeriv(self._val)
         return self._val
-    def propagateError(self,errors):
-        if len(errors)!=len(self._weights):
+    """
+    def propagateError(self,weights,errors,learnRate=False):
+        if len(errors)!=len(weights):
             raise TypeError('Wrong values length')
-        self._error=self._activFuncDeriv(self._val)*np.dot(self._weights,errors)
+        if learnRate:
+            self._learnRate=learnRate
+        self._error=self._activFuncDeriv(self._val)*np.dot(weights,errors)
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*self._error*self._value
         return self._error
