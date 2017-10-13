@@ -83,10 +83,12 @@ class Perceptron:
         else:
             self._weights[index]=value
     def __getattr__(self,attr):
-        raise AttributeError('No such attribute %r'%attr)
+        raise AttributeError('No such attribute: %r'%attr)
     def __setattr__(self,attr,value):
         if attr=='learnRate':
             self._learnRate=value
+        else:
+            raise AttributeError('No such attribute: %r'%attr)
     def __iter__(self):
         return iter(self._weights)
     def __len__(self):
