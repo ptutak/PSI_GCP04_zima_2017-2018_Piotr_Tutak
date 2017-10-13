@@ -47,31 +47,25 @@ class Perceptron:
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*(expectedValue-s)*inputValues[i]
     def process(self,inputValues):
-        if len(inputValues)!=len(self._weights):
+        inputValuesList=[]
+        inputValues=iter(inputValues)
+        for x in range(len(self._weights)):
+            self._inputValuesList.append(next(inputValues))
+        self._inputValues=np.array(inputValuesList)
+        if len(self._inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
-        s=np.dot(self._weights,inputValues)
-        self._val=self._activFunc(s)
-        self._inputValues=np.array(inputValues)
+        self._val=self._activFunc(np.dot(self._weights,self._inputValues))
         return self._val
-    """
-    def processError(self,inputValues,expectedValue,learnRate=False):
-        if len(inputValues)!=len(self._weights):
-            raise TypeError('Wrong values length')
-        if learnRate:
-            self._learnRate=learnRate
-        s=np.dot(self._weights,inputValues)
-        self._val=self._activFunc(s)
-        self._error=(expectedValue-self._val)*self._activFuncDeriv(self._val)
-        return self._val
-    """
     def propagateError(self,weights,errors,learnRate=False):
+        weights=np.array(weights)
+        errors=np.array(errors)
         if len(errors)!=len(weights):
             raise TypeError('Wrong values length')
         if learnRate:
             self._learnRate=learnRate
         self._error=self._activFuncDeriv(self._val)*np.dot(weights,errors)
         for i in range(len(self._weights)):
-            self._weights[i]+=self._learnRate*self._error*self._value*self._inputValues[i]
+            self._weights[i]+=self._learnRate*self._error*self._inputValues[i]
         return self._error
     def __getitem__(self,index):
         if index=='error':
@@ -84,16 +78,44 @@ class Perceptron:
             self._activFunc=value
         elif index=='activFuncDeriv':
             self._activFuncDeriv=value
+        elif index=='learnRate':
+            self._learnRate=value
         else:
             self._weights[index]=value
     def __getattr__(self,attr):
         raise AttributeError('No such attribute %r'%attr)
+    def __setattr__(self,attr,value):
+        if attr=='learnRate':
+            self._learnRate=value
     def __iter__(self):
         return iter(self._weights)
     def __len__(self):
         return len(self._weights)
     def __repr__(self):
         return 'Perceptron(weights:{0!r},learnRate:({1!r}),activFunc:{2!r})'.format(list(self._weights),self._learnRate,self._activFunc)
+
+
+class PerceptronLayer:
+    def __init__(self,percepNumber,inputNumber,activFunc,activFuncDeriv,learnRate=0.1):
+        self._learnRate=learnRate
+        self._perceptrons=[Perceptron([np.random.ranf() for _ in range(inputNumber)],self._learnRate,activFunc,activFuncDeriv) for _ in range(percepNumber)]
+    def __getitem__(self,index):
+        return self._perceptrons[index]
+    def __setitem__(self,index,value):
+        if index=='learnRate':
+            self._lernRate=value
+            for x in self._perceptrons:
+                x['learnRate']=value
+                
+class Multilayer:
+    def __init__(self,perceptronLayers):
+        self._perceptronLayers=perceptronLayers
+    def learn(self,inputValues,expectedValues):
+        inpValIter=iter(inputValues)
+        for layer in self._perceptronLayers:
+            for p in layer:
+                p.process(inpValIter)
+                
 
 
 if __name__=='__main__':
