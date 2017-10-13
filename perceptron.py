@@ -7,6 +7,18 @@ Created on Tue Oct 10 19:39:26 2017
 
 import numpy as np
 
+def ident(x):
+    return x
+
+def one(x):
+    return 1
+
+def signAbs(x):
+    if x<0:
+        return 0
+    else:
+        return 1
+
 class SigmFact:
     def __call__(self,alfa):
         def sigm(s):
@@ -31,6 +43,7 @@ class Perceptron:
             self._learnRate=learnRate
         s=np.dot(self._weights,inputValues)
         s=self._activFunc(s)
+        self._error=expectedValue-s
         if s!=expectedValue:
             for i in range(len(self._weights)):
                 self._weights[i]+=self._learnRate*(expectedValue-s)*self._activFuncDeriv(s)*inputValues[i]
@@ -38,12 +51,22 @@ class Perceptron:
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
         s=np.dot(self._weights,inputValues)
-        s+=self._bias
         return self._activFunc(s)
     def __getitem__(self,index):
+        if index=='error':
+            return self._error
         return self._weights[index]
     def __setitem__(self,index,value):
-        self._weights[index]=value
+        if index=='error':
+            self._error=value
+        elif index=='activFunc':
+            self._activFunc=value
+        elif index=='activFuncDeriv':
+            self._activFuncDeriv=value
+        else:
+            self._weights[index]=value
+    def __getattr__(self,attr):
+        raise AttributeError('No such attribute %r'%attr)
     def __iter__(self):
         return iter(self._weights)
     def __len__(self):
@@ -51,3 +74,24 @@ class Perceptron:
     def __repr__(self):
         return 'Perceptron(weights:{0!r},learnRate:({1!r}),activFunc:{2!r})'.format(list(self._weights),self._learnRate,self._activFunc)
 
+
+if __name__=='__main__':
+        
+    inputData=(
+            ((1,0,0),0),
+            ((1,0,1),0),
+            ((1,1,0),0),
+            ((1,1,1),1)
+            )
+    
+    learnRates=[np.random.ranf() for _ in range(10)]
+    
+    p=Perceptron([np.random.ranf() for _ in range(3)],0.1,signAbs,one)
+    
+    for _ in range(100):
+        p.learn(*inputData[np.random.choice(len(inputData))])
+        
+    print(p)
+    
+    for x in inputData:
+        print(p.process(x[0]))
