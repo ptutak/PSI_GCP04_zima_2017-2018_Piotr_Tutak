@@ -7,6 +7,7 @@ Created on Tue Oct 10 19:39:26 2017
 
 import numpy as np
 
+
 def ident(x):
     return x
 
@@ -46,13 +47,9 @@ class Perceptron:
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*(expectedValue-s)*inputValues[i]
     def process(self,inputValues):
-        inputValuesList=[]
-        inputValues=iter(inputValues)
-        for x in range(len(self._weights)):
-            inputValuesList.append(next(inputValues))
-        self.__dict__['_inputValues']=np.array(inputValuesList)
-        if len(self._inputValues)!=len(self._weights):
+        if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
+        self.__dict__['_inputValues']=np.array(inputValues)
         self.__dict__['_val']=self._activFunc(np.dot(self._weights,self._inputValues))
         return self._val
     def propagateError(self,weights,errors,learnRate=False):
@@ -96,7 +93,7 @@ class Perceptron:
             w+="{!r:.7},".format(x)
         w=w[:-1]
         w+=']'
-        return 'Perceptron(weights:{0!r:},learnRate:({1!r:.7}),activFunc:{2!r})'.format(w,self._learnRate,self._activFunc.__name__)
+        return 'Perceptron(weights:{0!s:},learnRate:({1!r:.7}),activFunc:{2!r})'.format(w,self._learnRate,self._activFunc.__name__)
 
 
 class PerceptronLayer:
@@ -115,12 +112,22 @@ class Multilayer:
     def __init__(self,perceptronLayers):
         self._perceptronLayers=perceptronLayers
     def learn(self,inputValues,expectedValues):
-        inpValIter=iter(inputValues)
+        values=[]
         for layer in self._perceptronLayers:
             for p in layer:
-                p.process(inpValIter)
+                values.append(p.process(inputValues[:len(p)]))
+                inputValues=inputValues[len(p):]
+            inputValues=values
+        results=iter(values)
+        expectedValues=iter(expectedValues)
+        errors=[]
+        for value in expectedValues:
+            errors.append(next(results)-next(expectedValues))
+        weights=[1 for x in range(len(errors))]
+        for layer in reversed(self._perceptronLayers):
+            for p in layer:
+                pass
                 
-
 
 if __name__=='__main__':
         
@@ -130,8 +137,6 @@ if __name__=='__main__':
             ((1,1,0),0),
             ((1,1,1),1)
             )
-    
-    learnRates=[abs(np.random.ranf())*10 for _ in range(10)]
     
     p=Perceptron([abs(np.random.ranf()) for _ in range(3)],1,naturalOne,one)
     print(p)
@@ -149,6 +154,6 @@ if __name__=='__main__':
             break
     print(i)
     print(p)
-    print
     for x in inputData:
         print(p.process(x[0]))
+    
