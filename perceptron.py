@@ -13,13 +13,12 @@ def ident(x):
 def one(x):
     return 1
 
-def signAbs(x):
-    if x<0:
+def naturalOne(x):
+    if x<=0:
         return 0
-    else:
-        return 1
+    return 1
 
-class SigmFact:
+class Sigm:
     def __call__(self,alfa):
         def sigm(s):
             return 1/(1+np.exp(-alfa*s))
@@ -32,10 +31,10 @@ class SigmFact:
 
 class Perceptron:
     def __init__(self, weights, learnRate, activFunc, activFuncDeriv):
-        self._weights=np.array(weights)
-        self._learnRate=learnRate
-        self._activFunc=activFunc
-        self._activFuncDeriv=activFuncDeriv
+        self.__dict__['_weights']=np.array(weights)
+        self.__dict__['_learnRate']=learnRate
+        self.__dict__['_activFunc']=activFunc
+        self.__dict__['_activFuncDeriv']=activFuncDeriv
     def learn(self,inputValues,expectedValue,learnRate=False):
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
@@ -43,18 +42,18 @@ class Perceptron:
             self._learnRate=learnRate
         s=np.dot(self._weights,inputValues)
         s=self._activFunc(s)
-        self._error=expectedValue-s
+        self.__dict__['_error']=expectedValue-s
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*(expectedValue-s)*inputValues[i]
     def process(self,inputValues):
         inputValuesList=[]
         inputValues=iter(inputValues)
         for x in range(len(self._weights)):
-            self._inputValuesList.append(next(inputValues))
-        self._inputValues=np.array(inputValuesList)
+            inputValuesList.append(next(inputValues))
+        self.__dict__['_inputValues']=np.array(inputValuesList)
         if len(self._inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
-        self._val=self._activFunc(np.dot(self._weights,self._inputValues))
+        self.__dict__['_val']=self._activFunc(np.dot(self._weights,self._inputValues))
         return self._val
     def propagateError(self,weights,errors,learnRate=False):
         weights=np.array(weights)
@@ -63,7 +62,7 @@ class Perceptron:
             raise TypeError('Wrong values length')
         if learnRate:
             self._learnRate=learnRate
-        self._error=self._activFuncDeriv(self._val)*np.dot(weights,errors)
+        self.__dict__['_error']=self._activFuncDeriv(self._val)*np.dot(weights,errors)
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*self._error*self._inputValues[i]
         return self._error
@@ -72,9 +71,7 @@ class Perceptron:
             return self._error
         return self._weights[index]
     def __setitem__(self,index,value):
-        if index=='error':
-            self._error=value
-        elif index=='activFunc':
+        if index=='activFunc':
             self._activFunc=value
         elif index=='activFuncDeriv':
             self._activFuncDeriv=value
@@ -94,7 +91,12 @@ class Perceptron:
     def __len__(self):
         return len(self._weights)
     def __repr__(self):
-        return 'Perceptron(weights:{0!r},learnRate:({1!r}),activFunc:{2!r})'.format(list(self._weights),self._learnRate,self._activFunc)
+        w='['
+        for x in self._weights:
+            w+="{!r:.7},".format(x)
+        w=w[:-1]
+        w+=']'
+        return 'Perceptron(weights:{0!r:},learnRate:({1!r:.7}),activFunc:{2!r})'.format(w,self._learnRate,self._activFunc.__name__)
 
 
 class PerceptronLayer:
@@ -129,14 +131,24 @@ if __name__=='__main__':
             ((1,1,1),1)
             )
     
-    learnRates=[np.random.ranf() for _ in range(10)]
+    learnRates=[abs(np.random.ranf())*10 for _ in range(10)]
     
-    p=Perceptron([np.random.ranf() for _ in range(3)],0.1,signAbs,one)
-    
-    for _ in range(100):
-        p.learn(*inputData[np.random.choice(len(inputData))])
-        
+    p=Perceptron([abs(np.random.ranf()) for _ in range(3)],1,naturalOne,one)
     print(p)
-    
+    i=0
+    while(True):
+        cont=False
+        i+=1
+        p.learn(*inputData[np.random.choice(len(inputData))])
+        for data,expected in inputData:
+            r=p.process(data)
+            if r!=expected:
+                cont=True
+                break
+        if not cont:
+            break
+    print(i)
+    print(p)
+    print
     for x in inputData:
         print(p.process(x[0]))
