@@ -64,7 +64,7 @@ class Perceptron:
             raise TypeError('Wrong values length')
         if learnRate:
             self.__dict__['_learnRate']=learnRate
-        self._error=self._activFuncDeriv(self._val)*np.dot(weights,errors)
+        self.__dict__['_error']=self._activFuncDeriv(self._val)*np.dot(weights,errors)
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*self._error*self._inputValues[i]
         self.__dict__['_bias']+=self._learnRate*self._error
@@ -114,10 +114,7 @@ class Multilayer:
         values=[]
         for layer in self._perceptronLayers:
             values=[]
-            print(values)
             for p in layer:
-                print(len(p))
-                
                 values.append(p.process(inputValues[:len(p)]))
                 inputValues=inputValues[len(p):]
             inputValues=values
