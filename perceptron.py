@@ -30,6 +30,7 @@ class Sigm:
         return sigmDeriv
 
 
+
 class Perceptron:
     def __init__(self, weights, learnRate, activFunc, activFuncDeriv):
         self.__dict__['_weights']=np.array(weights)
@@ -40,6 +41,7 @@ class Perceptron:
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
         if (learnRate):
+            print('x')
             self._learnRate=learnRate
         s=np.dot(self._weights,inputValues)
         s=self._activFunc(s)
@@ -88,12 +90,8 @@ class Perceptron:
     def __len__(self):
         return len(self._weights)
     def __repr__(self):
-        w='['
-        for x in self._weights:
-            w+="{!r:.7},".format(x)
-        w=w[:-1]
-        w+=']'
-        return 'Perceptron(weights:{0!s:},learnRate:({1!r:.7}),activFunc:{2!r})'.format(w,self._learnRate,self._activFunc.__name__)
+        w='['+','.join('{:8.5f}'.format(x) for x in self._weights)+']'
+        return 'Perceptron(weights:{0},learnRate:({1:.5f}),activFunc:{2!r})'.format(w,self._learnRate,self._activFunc.__name__)
 
 
 class PerceptronLayer:
@@ -138,22 +136,42 @@ if __name__=='__main__':
             ((1,1,1),1)
             )
     
-    p=Perceptron([abs(np.random.ranf()) for _ in range(3)],1,naturalOne,one)
-    print(p)
-    i=0
-    while(True):
-        cont=False
-        i+=1
-        p.learn(*inputData[np.random.choice(len(inputData))])
-        for data,expected in inputData:
-            r=p.process(data)
-            if r!=expected:
-                cont=True
+    listPercMin=[]
+    listPercAver=[]
+    listPercMax=[]
+    RES_NUMBER=100
+    while(len(listPercMin)<RES_NUMBER or len(listPercAver)<RES_NUMBER or len(listPercMax)<RES_NUMBER):
+        w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(3)]
+        p=Perceptron(w,np.random.ranf()*np.random.ranf()*np.random.ranf(),naturalOne,one)
+        i=0
+        while(True):
+            cont=False
+            i+=1
+            p.learn(*inputData[np.random.choice(len(inputData))])
+            for data,expected in inputData:
+                r=p.process(data)
+                if r!=expected:
+                    cont=True
+                    break
+            if not cont:
                 break
-        if not cont:
-            break
-    print(i)
-    print(p)
-    for x in inputData:
-        print(p.process(x[0]))
-    
+        w='initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']'
+        if i<10 and len(listPercMin)<RES_NUMBER:
+            listPercMin.append((w,p,"iterNumber: %d"%i))
+            print(i)
+        elif i>=10 and i<1000 and len(listPercAver)<RES_NUMBER:
+            listPercAver.append((w,p,"iterNumber: %d"%i))
+            print(i)
+        elif i>=1000 and len(listPercMax)<RES_NUMBER:
+            listPercMax.append((w,p,"iterNumber: %d"%i))
+            print(i)
+    print('\n------------ min iter number ------------\n')
+    for x in listPercMin:
+        print(x)
+    print('\n------------ average iter number ------------\n')
+    for x in listPercAver:
+        print(x)
+    print('\n------------ max iter number ------------\n')
+    for x in listPercMax:
+        print(x)
+ 
