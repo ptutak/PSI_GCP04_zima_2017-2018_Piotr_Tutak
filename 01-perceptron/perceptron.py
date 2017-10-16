@@ -13,40 +13,43 @@ def ident(x):
     return x
 
 def one(x):
-    return 1
+    return 1.0
+
+def zero(x):
+    return 0.0
 
 def naturalOne(x):
     if x<=0:
-        return 0
-    return 1
+        return 0.0
+    return 1.0
 def sign(x):
     if x<0:
-        return -1
+        return -1.0
     elif x>0:
-        return 1
-    return 0
+        return 1.0
+    return 0.0
 
 def squash(x):
     if x<-1:
-        return -1
+        return -1.0
     elif x>1:
-        return 1
+        return 1.0
     return x
 
 class Sigm:
     def __call__(self,alfa):
         def sigm(x):
-            return 1/(1+np.exp(-alfa*x))
+            return 1.0/(1.0+np.exp(-alfa*x))
         return sigm
     def derivative(self,alfa):
         def sigmDeriv(x):
-            return alfa*np.exp(-alfa*x)/((1+np.exp(-alfa*x))**2)
+            return alfa*np.exp(-alfa*x)/((1.0+np.exp(-alfa*x))**2)
         return sigmDeriv
 
 
 
 class Perceptron:
-    def __init__(self, weights, learnRate, activFunc, activFuncDeriv, bias=0):
+    def __init__(self, weights, learnRate, activFunc, activFuncDeriv, bias=-1.0):
         self.__dict__['_weights']=np.array(weights)
         self.__dict__['_learnRate']=learnRate
         self.__dict__['_activFunc']=activFunc
@@ -86,7 +89,7 @@ class Perceptron:
             self.__dict__['_learnRate']=learnRate
         self.__dict__['_error']=np.dot(weights,errors)
         for i in range(len(self._weights)):
-            self._weights[i]+=self._learnRate*self._activFuncDeriv(self._val)*self._error*self._inputValues[i]
+            self._weights[i]+=(self._learnRate*self._activFuncDeriv(self._val)*self._error*self._inputValues[i])
         self.__dict__['_bias']+=self._learnRate*self._activFuncDeriv(self._val)*self._error
         return self._error
     def __getitem__(self,index):
@@ -97,8 +100,6 @@ class Perceptron:
         elif index=='value':
             return self._val
         return self._weights[index]
-    def __setitem__(self,index,value):
-        self._weights[index]=value
     def __getattr__(self,attr):
         raise AttributeError('get: No such attribute: %r'%attr)
     def __setattr__(self,attr,value):
@@ -115,7 +116,9 @@ class Perceptron:
 class Layer:
     def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,learnRate=0.1):
         self._learnRate=learnRate
-        self._perceptrons=[Perceptron([np.random.ranf()*np.random.choice([-1,1]) for _ in range(inputNumber)],self._learnRate,activFunc,activFuncDeriv,np.random.ranf()*-1) for _ in range(percepNumber)]
+        self._perceptrons=[Perceptron([1.0 for _ in range(inputNumber)],self._learnRate,activFunc,activFuncDeriv,-1.0) for _ in range(percepNumber)]
+
+        #self._perceptrons=[Perceptron([np.random.ranf()*np.random.choice([-1,1]) for _ in range(inputNumber)],self._learnRate,activFunc,activFuncDeriv,np.random.ranf()*-1) for _ in range(percepNumber)]
     def __len__(self):
         return len(self._perceptrons)
     def __getitem__(self,index):
@@ -136,14 +139,12 @@ class Multilayer:
         values=[]
         for p in self[0]:
             values.append(p.process(inputValues[:len(p)]))
-            inputValues=inputValues[len(p):]
-            
+            inputValues=inputValues[len(p):]    
         for layer in self._perceptronLayers[1:]:
-            inputValues=[values for _ in range(len(layer[0]))]
+            inputValues=values
             values=[]
             for p in layer:
-                values.append(p.process(inputValues.pop(0)))
-        
+                values.append(p.process(inputValues))
         return values
         
     def learn(self,inputValues,expectedValues):
@@ -152,25 +153,20 @@ class Multilayer:
         expectedValues=iter(expectedValues)
         errors=[]
         for _ in range(i):
-            errors.append([next(results)-next(expectedValues)])
+            errors.append([next(expectedValues)-next(results)])
         weights=[[1] for _ in range(len(errors))]
         for layer in reversed(self._perceptronLayers):
-            #print(weights)
-            #print(errors)
             newErrors=[]
             newWeights=[]
             for p in layer:
                 newWeights.append(p[:])
                 newErrors.append(p.propagateError(weights.pop(0),errors.pop(0)))
-            #print(newWeights)
             weights=list(zip(*newWeights))
-            #print(newErrors)
             errors=[newErrors for x in range(len(weights))]
-            #time.sleep(1)
                 
 
 if __name__=='__main__':
-        
+    """    
     inputData=(
             ((1,0,0),0),
             ((1,0,1),0),
@@ -217,6 +213,7 @@ if __name__=='__main__':
     for x in listPercMax:
         print(x)
     print('\n\n\n\n')
+    """
     xorInputData=(
             ((0,0),[0]),
             ((0,1),[1]),
@@ -224,8 +221,8 @@ if __name__=='__main__':
             ((1,1),[0])
             )
     w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(3)]
-    firstLayer=Layer(1,2,squash,one)
-    secondLayer=Layer(2,2,squash,one)
+    firstLayer=Layer(1,2,Sigm()(1),Sigm().derivative(1.0))
+    secondLayer=Layer(2,2,Sigm()(1),Sigm().derivative(1.0))
     outputLayer=Layer(2,1,naturalOne,one)
     mult=Multilayer([firstLayer,secondLayer,outputLayer])
    
@@ -238,8 +235,17 @@ if __name__=='__main__':
                 er=p['error']
                 if er==0:
                     er=None
-                print(p,p['input'],p['value'],er)
-        mult.learn(*xorInputData[np.random.choice(len(xorInputData))])
+                print(p,'inp:',p['input'],'val:',p['value'],'er:',er)
+        inp=xorInputData[np.random.choice(len(xorInputData))]
+        mult.learn(*inp)
+        print(inp)
+        for layer in mult:
+            for p in layer:
+                er=p['error']
+                if er==0:
+                    er=None
+                print(p,'inp:',p['input'],'val:',p['value'],'er:',er)
+        print('\n')
         for data,expected in xorInputData:
             r=mult.process(data)
             print(data,expected,r)
@@ -248,7 +254,7 @@ if __name__=='__main__':
                 break
         if not cont:
             break
-        time.sleep(3)
+        time.sleep(1)
     for data,expected in xorInputData:
         r=mult.process(data)
         print(data,r)
