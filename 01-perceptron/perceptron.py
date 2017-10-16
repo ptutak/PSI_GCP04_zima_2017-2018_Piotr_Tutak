@@ -7,6 +7,7 @@ Created on Tue Oct 10 19:39:26 2017
 
 import numpy as np
 import time
+from itertools import zip_longest
 
 
 def ident(x):
@@ -22,6 +23,10 @@ def naturalOne(x):
     if x<=0:
         return 0.0
     return 1.0
+def half(x):
+    return 0.5
+def quatro(x):
+    return 0.25
 def sign(x):
     if x<0:
         return -1.0
@@ -59,7 +64,7 @@ class NegSigm:
 
 
 class Perceptron:
-    def __init__(self, weights, learnRate, activFunc, activFuncDeriv, bias=-1.0):
+    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-1.0*np.random.ranf()):
         self.__dict__['_weights']=np.array(weights)
         self.__dict__['_learnRate']=learnRate
         self.__dict__['_activFunc']=activFunc
@@ -84,12 +89,6 @@ class Perceptron:
         self.__dict__['_inputValues']=np.array(inputValues)
         self.__dict__['_val']=self._activFunc(np.dot(self._weights,self._inputValues)+self._bias)
         return self._val
-    def computeWeights(self,learnRate=False):
-        if learnRate:
-            self.__dict__['_learnRate']=learnRate
-        for i in range(len(self._weights)):
-            self._weights[i]+=self._learnRate*self._activFuncDeriv(self._val)*self._error*self._inputValues[i]
-        self.__dict__['_bias']+=self._learnRate*self._activFuncDeriv(self._val)*self._error
     def propagateError(self,weights,errors,learnRate=False):
         weights=np.array(weights)
         errors=np.array(errors)
@@ -99,8 +98,8 @@ class Perceptron:
             self.__dict__['_learnRate']=learnRate
         self.__dict__['_error']=np.dot(weights,errors)
         for i in range(len(self._weights)):
-            self._weights[i]+=(self._learnRate*self._activFuncDeriv(self._val)*self._error*self._inputValues[i])
-        self.__dict__['_bias']+=self._learnRate*self._activFuncDeriv(self._val)*self._error
+            self._weights[i]+=self._learnRate*self._error*self._inputValues[i]*self._activFuncDeriv(self._val)
+        self.__dict__['_bias']+=self._learnRate*self._error*self._activFuncDeriv(self._val)
         return self._error
     def __getitem__(self,index):
         if index=='error':
@@ -124,9 +123,9 @@ class Perceptron:
 
 
 class Layer:
-    def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,learnRate=0.1):
+    def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,learnRate=1.0):
         self._learnRate=learnRate
-        self._perceptrons=[Perceptron([1.0 for _ in range(inputNumber)],self._learnRate,activFunc,activFuncDeriv,-1.0) for _ in range(percepNumber)]
+        self._perceptrons=[Perceptron([1.0 for _ in range(inputNumber)],activFunc,activFuncDeriv) for _ in range(percepNumber)]
 
         #self._perceptrons=[Perceptron([np.random.ranf()*np.random.choice([-1,1]) for _ in range(inputNumber)],self._learnRate,activFunc,activFuncDeriv,np.random.ranf()*-1) for _ in range(percepNumber)]
     def __len__(self):
@@ -140,8 +139,17 @@ class Layer:
                 x['learnRate']=value
                 
 class Multilayer:
-    def __init__(self,perceptronLayers):
-        self._perceptronLayers=perceptronLayers
+    def __init__(self,perceptronLayers,activFuncs=False,activFuncDerivs=False):
+        if isinstance(perceptronLayers[0],Layer):
+            self._perceptronLayers=perceptronLayers
+        elif isinstance(perceptronLayers[0],int):
+            l=zip_longest(perceptronLayers,activFuncs,activFuncDerivs,fillvalue=None)
+            prev=next(l)
+            layerList=[Layer(1,*prev)]
+            for x in l:
+                layerList.append(Layer(prev[0],*x))
+                prev=x
+            self._perceptronLayers=layerList
     def __getitem__(self,index):
         return self._perceptronLayers[index]
     def process(self,inputValues):
@@ -176,21 +184,21 @@ class Multilayer:
                 
 
 if __name__=='__main__':
-    """    
+    """
     inputData=(
-            ((1,0,0),0),
-            ((1,0,1),0),
-            ((1,1,0),0),
-            ((1,1,1),1)
+            ((0,0),0),
+            ((0,1),0),
+            ((1,0),0),
+            ((1,1),1)
             )
     
     listPercMin=[]
     listPercAver=[]
     listPercMax=[]
-    RES_NUMBER=1
+    RES_NUMBER=100
     while(len(listPercMin)<RES_NUMBER or len(listPercAver)<RES_NUMBER or len(listPercMax)<RES_NUMBER):
-        w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(3)]
-        p=Perceptron(w,np.random.ranf()*np.random.ranf()*np.random.ranf(),naturalOne,one)
+        w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
+        p=Perceptron(w,naturalOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf())
         i=0
         while(True):
             cont=False
@@ -224,28 +232,20 @@ if __name__=='__main__':
         print(x)
     print('\n\n\n\n')
     """
+    
     xorInputData=(
             ((0,0),[0]),
             ((0,1),[1]),
             ((1,0),[1]),
             ((1,1),[0])
             )
-    w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(3)]
-    firstLayer=Layer(1,2,NegSigm()(1.0),NegSigm().derivative(1.0))
-    secondLayer=Layer(2,2,ident,one)
-    outputLayer=Layer(2,1,naturalOne,one)
-    mult=Multilayer([firstLayer,secondLayer,outputLayer])
-   
+
+    mult=Multilayer([2,2,1],[NegSigm()(1.0),sign,naturalOne],[NegSigm().derivative(1.0),half,quatro])
+
     i=0
     while(True):
         cont=False
         i+=1
-        for layer in mult:
-            for p in layer:
-                er=p['error']
-                if er==0:
-                    er=None
-                print(p,'inp:',p['input'],'val:',p['value'],'er:',er)
         inp=xorInputData[np.random.choice(len(xorInputData))]
         mult.learn(*inp)
         print(inp)
@@ -264,7 +264,7 @@ if __name__=='__main__':
                 break
         if not cont:
             break
-#        time.sleep(1)
+        time.sleep(1)
     for data,expected in xorInputData:
         r=mult.process(data)
         print(data,r)
