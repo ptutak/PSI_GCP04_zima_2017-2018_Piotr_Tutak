@@ -46,6 +46,16 @@ class Sigm:
             return alfa*np.exp(-alfa*x)/((1.0+np.exp(-alfa*x))**2)
         return sigmDeriv
 
+class NegSigm:
+    def __call__(self,alfa):
+        def sigm(x):
+            return (2.0/(1.0+np.exp(-alfa*x)))-1.0
+        return sigm
+    def derivative(self,alfa):
+        def sigmDeriv(x):
+            return 2.0*alfa*np.exp(-alfa*x)/((1.0+np.exp(-alfa*x))**2)
+        return sigmDeriv
+
 
 
 class Perceptron:
@@ -221,8 +231,8 @@ if __name__=='__main__':
             ((1,1),[0])
             )
     w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(3)]
-    firstLayer=Layer(1,2,Sigm()(1),Sigm().derivative(1.0))
-    secondLayer=Layer(2,2,Sigm()(1),Sigm().derivative(1.0))
+    firstLayer=Layer(1,2,NegSigm()(1.0),NegSigm().derivative(1.0))
+    secondLayer=Layer(2,2,ident,one)
     outputLayer=Layer(2,1,naturalOne,one)
     mult=Multilayer([firstLayer,secondLayer,outputLayer])
    
@@ -254,7 +264,7 @@ if __name__=='__main__':
                 break
         if not cont:
             break
-        time.sleep(1)
+#        time.sleep(1)
     for data,expected in xorInputData:
         r=mult.process(data)
         print(data,r)
