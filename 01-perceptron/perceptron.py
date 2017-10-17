@@ -184,18 +184,20 @@ class Multilayer:
                 
 
 if __name__=='__main__':
-    """
     inputData=(
             ((0,0),0),
             ((0,1),0),
             ((1,0),0),
             ((1,1),1)
             )
+    for x in inputData:
+        print("data: {0}, expected: {1}".format(*x))
     
     listPercMin=[]
     listPercAver=[]
     listPercMax=[]
-    RES_NUMBER=100
+    RES_NUMBER=10
+    
     while(len(listPercMin)<RES_NUMBER or len(listPercAver)<RES_NUMBER or len(listPercMax)<RES_NUMBER):
         w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
         p=Perceptron(w,naturalOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf())
@@ -223,15 +225,16 @@ if __name__=='__main__':
             print(i)
     print('\n------------ min iter number ------------\n')
     for x in listPercMin:
-        print(x)
+        print(*x, sep=';')
     print('\n------------ average iter number ------------\n')
     for x in listPercAver:
-        print(x)
+        print(*x, sep=';')
     print('\n------------ max iter number ------------\n')
     for x in listPercMax:
-        print(x)
+        print(*x, sep=';')
+"""
     print('\n\n\n\n')
-    """
+    
     
     xorInputData=(
             ((0,0),[0]),
@@ -270,3 +273,4 @@ if __name__=='__main__':
         print(data,r)
     print('iter number: %d',i)
  
+#"""
