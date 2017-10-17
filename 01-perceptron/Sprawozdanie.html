@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1250">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice 4.1.3  (Win32)">
+	<META NAME="AUTHOR" CONTENT="Piotr Tutak">
+	<META NAME="CREATED" CONTENT="20171017;17362255">
+	<META NAME="CHANGEDBY" CONTENT="Piotr Tutak">
+	<META NAME="CHANGED" CONTENT="20171017;20551349">
+	<META NAME="Category" CONTENT="">
+	<META NAME="Company" CONTENT="">
+	<META NAME="Editor" CONTENT="OpenOffice/4.1.3$Win32 OpenOffice.org_project/413m1$Build-9783">
+	<META NAME="HyperlinkBase" CONTENT="">
+	<META NAME="Language" CONTENT="">
+	<META NAME="Manager" CONTENT="">
+	<META NAME="Version" CONTENT="">
+	<STYLE TYPE="text/css">
+	<!--
+		P { margin-bottom: 0.21cm }
+		A:link { color: #000080; so-language: zxx; text-decoration: underline }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="pl-PL" LINK="#000080" VLINK="#800000" DIR="LTR">
+<P STYLE="margin-bottom: 0cm">Podstawy Sztucznej Inteligencji &ndash;
+ćwiczenia projektowe</P>
+<P STYLE="margin-bottom: 0cm">Sprawozdanie &ndash; 20.10.2017</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">W zadaniu została wykorzystana metoda
+uczenia, o której można przeczytać po adresem:</P>
+<P STYLE="margin-bottom: 0cm"><A HREF="http://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad3/w3.htm">http://edu.pjwstk.edu.pl/wyklady/nai/scb/wyklad3/w3.htm</A></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm">Polega ona na modyfikacji wag
+perceptronu poprzez porównanie otrzymanego wyniku z wynikiem
+oczekiwanym i takiej zmianie wag, by brały pod uwagę współczynnik
+uczenia i różnicę między wynikiem, a wartością oczekiwaną zgodnie ze
+wzorem:</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm; font-weight: normal"><I>w</I><SUB><I>1
+</I></SUB><I>+= </I><SPAN LANG="en-US"><I>n * </I></SPAN><SPAN LANG="en-US">(</SPAN><SPAN LANG="en-US"><I>d-y</I></SPAN><SPAN LANG="en-US">)
+</SPAN><I>* x</I><SUB><I>1</I></SUB><I><BR>w</I><SUB><I>2 </I></SUB><I>+=
+</I><SPAN LANG="en-US"><I>n </I></SPAN><SPAN LANG="en-US">* (</SPAN><SPAN LANG="en-US"><I>d-y</I></SPAN><SPAN LANG="en-US">)
+</SPAN><I>* x</I><SUB><I>2</I></SUB><I><BR></I><SPAN LANG="en-US"><I>b
+  +</I></SPAN><I>= </I><SPAN LANG="en-US"><I>n * </I></SPAN><SPAN LANG="en-US">(</SPAN><SPAN LANG="en-US"><I>d-y</I></SPAN><SPAN LANG="en-US">)</SPAN></P>
+<P STYLE="margin-bottom: 0cm; font-style: normal; font-weight: normal">
+<BR>
+</P>
+<P STYLE="margin-bottom: 0cm; font-style: normal; font-weight: normal">
+gdzie:</P>
+<UL>
+	<LI><P STYLE="margin-bottom: 0cm; font-weight: normal"><SPAN LANG="en-US"><I>w</I></SPAN><SUB><SPAN LANG="en-US"><I>1</I></SPAN></SUB><SPAN LANG="en-US"><I>,</I></SPAN><SUB><SPAN LANG="en-US"><I>
+	</I></SPAN></SUB><SPAN LANG="en-US"><I>w</I></SPAN><SUB><SPAN LANG="en-US"><I>2</I></SPAN></SUB><SPAN LANG="en-US"><I>
+	&ndash;</I></SPAN><SPAN LANG="en-US"><SPAN STYLE="font-style: normal">
+	wagi</SPAN></SPAN></P>
+	<LI><P STYLE="margin-bottom: 0cm; font-weight: normal"><SPAN LANG="en-US"><I>x</I></SPAN><SUB><SPAN LANG="en-US"><I>1</I></SPAN></SUB><SPAN LANG="en-US"><I>,
+	x</I></SPAN><SUB><SPAN LANG="en-US"><I>2</I></SPAN></SUB><SPAN LANG="en-US"><SPAN STYLE="font-style: normal">
+	&ndash; wartości wejściowe</SPAN></SPAN></P>
+	<LI><P STYLE="margin-bottom: 0cm"><SPAN LANG="en-US"><I><SPAN STYLE="font-weight: normal">n
+	&ndash; </SPAN></I></SPAN><SPAN LANG="en-US"><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: normal">niewielki
+	wsp</SPAN></SPAN></SPAN><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: normal">ółczynnik
+	uczenia (</SPAN></SPAN><I><SPAN STYLE="font-weight: normal">n</SPAN></I><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: normal">
+	&gt; 0)</SPAN></SPAN></P>
+	<LI><P STYLE="margin-bottom: 0cm"><I><SPAN STYLE="font-weight: normal">d
+	</SPAN></I><SPAN LANG="en-US"><I><SPAN STYLE="font-weight: normal">&ndash;</SPAN></I></SPAN><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: normal">
+	oczekiwana odpowiedź</SPAN></SPAN></P>
+	<LI><P STYLE="margin-bottom: 0cm"><I><SPAN STYLE="font-weight: normal">y</SPAN></I><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: normal">
+	&ndash; odpowiedź perceptronu</SPAN></SPAN></P>
+	<LI><P STYLE="margin-bottom: 0cm"><I><SPAN STYLE="font-weight: normal">b
+	&ndash;</SPAN></I><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: normal">
+	próg wzbudzenia perceptronu</SPAN></SPAN></P>
+</UL>
+<P STYLE="margin-bottom: 0cm; font-weight: normal"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Wyniki
+uczenia perceptronu funkcji AND:</FONT></FONT></FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>data:
+(0, 0), expected: 0</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>data:
+(0, 1), expected: 0</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>data:
+(1, 0), expected: 0</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>data:
+(1, 1), expected: 1</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>------------
+min iter number ------------</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.11125, 0.04797];Perceptron(weights:[ 0.60610,
+0.29540],bias:-0.73244,learnRate:(0.24743),activFunc:'naturalOne');iterNumber:
+6</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.36271, 0.02163];Perceptron(weights:[ 0.54192,
+0.20084],bias:-0.68868,learnRate:(0.05974),activFunc:'naturalOne');iterNumber:
+8</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.20559, 0.37193];Perceptron(weights:[ 0.20559,
+0.37193],bias:-0.53006,learnRate:(0.07117),activFunc:'naturalOne');iterNumber:
+1</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.91847, 0.74637];Perceptron(weights:[ 0.67844,
+0.74637],bias:-0.78546,learnRate:(0.24003),activFunc:'naturalOne');iterNumber:
+4</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.10173, 0.04372];Perceptron(weights:[ 0.63168,
+0.57367],bias:-0.87016,learnRate:(0.52995),activFunc:'naturalOne');iterNumber:
+8</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.59095, 0.51119];Perceptron(weights:[ 0.59095,
+0.51119],bias:-0.80593,learnRate:(0.15690),activFunc:'naturalOne');iterNumber:
+1</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.55768, 0.82703];Perceptron(weights:[ 0.16785,
+0.82703],bias:-0.89607,learnRate:(0.38983),activFunc:'naturalOne');iterNumber:
+4</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.44677, 0.82911];Perceptron(weights:[ 1.08580,
+0.19007],bias:-1.13711,learnRate:(0.63903),activFunc:'naturalOne');iterNumber:
+6</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.39117, 0.19288];Perceptron(weights:[ 0.49815,
+0.29986],bias:-0.76528,learnRate:(0.05349),activFunc:'naturalOne');iterNumber:
+6</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.14418, 0.78396];Perceptron(weights:[ 0.14418,
+0.78396],bias:-0.79635,learnRate:(0.00887),activFunc:'naturalOne');iterNumber:
+1</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>------------
+average iter number ------------</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.68320,
+0.06877];Perceptron(weights:[ 0.07552,
+0.41364],bias:-0.47807,learnRate:(0.06897),activFunc:'naturalOne');iterNumber:
+72</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.12307,-0.02144];Perceptron(weights:[
+0.28277,
+0.38441],bias:-0.53646,learnRate:(0.08117),activFunc:'naturalOne');iterNumber:
+25</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.84717,-0.40685];Perceptron(weights:[ 0.59654,
+0.01563],bias:-0.60594,learnRate:(0.00716),activFunc:'naturalOne');iterNumber:
+418</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.13209,-0.31436];Perceptron(weights:[ 0.50339,
+0.13120],bias:-0.58636,learnRate:(0.07426),activFunc:'naturalOne');iterNumber:
+25</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.02483, 0.30130];Perceptron(weights:[ 0.04921,
+0.20377],bias:-0.23136,learnRate:(0.02438),activFunc:'naturalOne');iterNumber:
+32</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.08147,
+0.75077];Perceptron(weights:[ 0.13155,
+0.37799],bias:-0.46029,learnRate:(0.05325),activFunc:'naturalOne');iterNumber:
+103</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.36895,
+0.26485];Perceptron(weights:[ 0.15907,
+0.44085],bias:-0.53193,learnRate:(0.08800),activFunc:'naturalOne');iterNumber:
+44</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.77574,-0.85672];Perceptron(weights:[
+0.02537,
+0.03339],bias:-0.04101,learnRate:(0.02967),activFunc:'naturalOne');iterNumber:
+156</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.84950,-0.25015];Perceptron(weights:[
+0.61523,
+1.21458],bias:-1.50577,learnRate:(0.48824),activFunc:'naturalOne');iterNumber:
+48</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.81392,-0.38371];Perceptron(weights:[ 0.32470,
+1.08394],bias:-1.11197,learnRate:(0.48922),activFunc:'naturalOne');iterNumber:
+19</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>------------
+max iter number ------------</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.15419,-0.52632];Perceptron(weights:[
+0.34978,
+0.00358],bias:-0.35259,learnRate:(0.00162),activFunc:'naturalOne');iterNumber:
+1330</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.00206,-0.97350];Perceptron(weights:[
+0.19739,
+0.00197],bias:-0.19772,learnRate:(0.00168),activFunc:'naturalOne');iterNumber:
+2407</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.12709,
+0.57907];Perceptron(weights:[ 0.00071,
+0.32900],bias:-0.32969,learnRate:(0.00061),activFunc:'naturalOne');iterNumber:
+2516</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.89681,
+0.51395];Perceptron(weights:[ 0.00452,
+0.49628],bias:-0.49976,learnRate:(0.00177),activFunc:'naturalOne');iterNumber:
+2159</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.67283,
+0.99432];Perceptron(weights:[ 0.00130,
+0.55165],bias:-0.55284,learnRate:(0.00067),activFunc:'naturalOne');iterNumber:
+6683</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.17183,-0.81148];Perceptron(weights:[
+0.16453,
+0.00265],bias:-0.16616,learnRate:(0.00137),activFunc:'naturalOne');iterNumber:
+2365</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.79868,-0.77361];Perceptron(weights:[ 0.73151,
+0.00323],bias:-0.73398,learnRate:(0.00172),activFunc:'naturalOne');iterNumber:
+1953</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.51251,-0.44361];Perceptron(weights:[
+0.01784,
+0.08675],bias:-0.10459,learnRate:(0.00000),activFunc:'naturalOne');iterNumber:
+19319407</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[-0.16550,-0.96391];Perceptron(weights:[
+0.03108,
+0.00691],bias:-0.03615,learnRate:(0.00302),activFunc:'naturalOne');iterNumber:
+1356</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=1>initialWeights:[
+0.34524,-0.97219];Perceptron(weights:[ 0.32921,
+0.00012],bias:-0.32932,learnRate:(0.00006),activFunc:'naturalOne');iterNumber:
+65743</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Dane
+uczące były wybierane losowo z danych przedstawionych na początku
+wypisu. Po każdorazowym &bdquo;nauczeniu&rdquo; perceptronu, był on
+testowany na wszystkich możliwych przypadkach</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>danych
+uczących i sprawdzany, czy zwraca poprawny wynik, jeśli wynik nie był
+poprawny chociaż w jednym przypadku, perceptron był uczony jeszcze
+raz.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Wagi
+początkowe były dobierane losowo, jako wartość dodatnia lub ujemna,
+bias był losową wartością ujemną.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Times New Roman, serif"><FONT SIZE=3>Jak
+widać w załączonych wynikach istnieje zależność między różnymi
+współczynnikami uczenia (losowa wartość dodatnia z zakresu [0,1) ), a
+ilością potrzebnych iteracji do osiągnięcia zadowalającego wyniku &ndash;
+im mniejszy &bdquo;learnRate&rdquo; tym większa ilość iteracji i
+dłuższy czas obliczeń. Udało się w tym przebiegu nawet ustalić na
+tyle niski &bdquo;learnRate&rdquo;, który sprawił, że pętla ucząca
+musiała zmieniać stan wag ponad 19mln razy.</FONT></FONT></P>
+</BODY>
+</HTML>

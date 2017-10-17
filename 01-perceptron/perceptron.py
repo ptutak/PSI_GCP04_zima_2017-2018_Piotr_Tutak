@@ -66,7 +66,7 @@ class NegSigm:
 
 
 class Perceptron:
-    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-1.0*np.random.ranf()):
+    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1+np.random.ranf()*0.5, bias=-1.0*np.random.ranf()):
         self.__dict__['_weights']=np.array(weights)
         self.__dict__['_learnRate']=learnRate
         self.__dict__['_activFunc']=activFunc
@@ -123,10 +123,16 @@ class Perceptron:
 
 
 class Layer:
-    def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,learnRate=1.0):
-        self._learnRate=learnRate
+    def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,learnRate=False,bias=False):
+        if learnRate:
+            self._learnRate=learnRate
+        else:
+            self._learnRate=0.1
+        if bias:
+            self._bias=bias
+        else:
+            self._bias=-1.0*np.random.ranf()
         #self._perceptrons=[Perceptron([1.0 for _ in range(inputNumber)],activFunc,activFuncDeriv) for _ in range(percepNumber)]
-
         self._perceptrons=[Perceptron([np.random.ranf()*np.random.choice([-1,1]) for _ in range(inputNumber)],activFunc,activFuncDeriv,bias=np.random.ranf()*-1) for _ in range(percepNumber)]
     def __len__(self):
         return len(self._perceptrons)
@@ -137,7 +143,9 @@ class Layer:
             self._learnRate=value
             for x in self._perceptrons:
                 x['learnRate']=value
-                
+
+
+
 class Multilayer:
     def __init__(self,perceptronLayers,activFuncs=False,activFuncDerivs=False):
         if isinstance(perceptronLayers[0],Layer):
@@ -200,7 +208,7 @@ if __name__=='__main__':
     
     while(len(listPercMin)<RES_NUMBER or len(listPercAver)<RES_NUMBER or len(listPercMax)<RES_NUMBER):
         w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
-        p=Perceptron(w,naturalOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf())
+        p=Perceptron(w,naturalOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1)
         i=0
         while(True):
             cont=False
