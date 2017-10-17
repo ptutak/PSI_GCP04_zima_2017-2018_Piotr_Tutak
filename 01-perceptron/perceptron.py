@@ -25,8 +25,10 @@ def naturalOne(x):
     return 1.0
 def half(x):
     return 0.5
+
 def quatro(x):
     return 0.25
+
 def sign(x):
     if x<0:
         return -1.0
@@ -87,15 +89,13 @@ class Perceptron:
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
         self.__dict__['_inputValues']=np.array(inputValues)
-        self.__dict__['_val']=self._activFunc(np.dot(self._weights,self._inputValues)+self._bias)
-        return self._val
-    def propagateError(self,weights,errors,learnRate=False):
+        self.__dict__['_val']=np.dot(self._weights,self._inputValues)+self._bias
+        return self._activFunc(self._val)
+    def propagateError(self,weights,errors):
         weights=np.array(weights)
         errors=np.array(errors)
         if len(errors)!=len(weights):
             raise TypeError('Wrong values length')
-        if learnRate:
-            self.__dict__['_learnRate']=learnRate
         self.__dict__['_error']=np.dot(weights,errors)
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*self._error*self._inputValues[i]*self._activFuncDeriv(self._val)
@@ -125,9 +125,9 @@ class Perceptron:
 class Layer:
     def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,learnRate=1.0):
         self._learnRate=learnRate
-        self._perceptrons=[Perceptron([1.0 for _ in range(inputNumber)],activFunc,activFuncDeriv) for _ in range(percepNumber)]
+        #self._perceptrons=[Perceptron([1.0 for _ in range(inputNumber)],activFunc,activFuncDeriv) for _ in range(percepNumber)]
 
-        #self._perceptrons=[Perceptron([np.random.ranf()*np.random.choice([-1,1]) for _ in range(inputNumber)],self._learnRate,activFunc,activFuncDeriv,np.random.ranf()*-1) for _ in range(percepNumber)]
+        self._perceptrons=[Perceptron([np.random.ranf()*np.random.choice([-1,1]) for _ in range(inputNumber)],activFunc,activFuncDeriv,bias=np.random.ranf()*-1) for _ in range(percepNumber)]
     def __len__(self):
         return len(self._perceptrons)
     def __getitem__(self,index):
@@ -240,7 +240,7 @@ if __name__=='__main__':
             ((1,1),[0])
             )
 
-    mult=Multilayer([2,2,1],[NegSigm()(1.0),sign,naturalOne],[NegSigm().derivative(1.0),half,quatro])
+    mult=Multilayer([2,2,1],[Sigm()(1.0),sign,sign],[Sigm().derivative(1.0),one,one])
 
     i=0
     while(True):
@@ -264,7 +264,7 @@ if __name__=='__main__':
                 break
         if not cont:
             break
-        time.sleep(1)
+ #       time.sleep(1)
     for data,expected in xorInputData:
         r=mult.process(data)
         print(data,r)
