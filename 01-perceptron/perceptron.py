@@ -66,7 +66,7 @@ class NegSigm:
 
 
 class Perceptron:
-    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1+np.random.ranf()*0.5, bias=-1.0*np.random.ranf()):
+    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-1.0*np.random.ranf()):
         self.__dict__['_weights']=np.array(weights)
         self.__dict__['_learnRate']=learnRate
         self.__dict__['_activFunc']=activFunc
@@ -98,9 +98,12 @@ class Perceptron:
             raise TypeError('Wrong values length')
         self.__dict__['_error']=np.dot(weights,errors)
         for i in range(len(self._weights)):
-            self._weights[i]+=self._learnRate*self._error*self._inputValues[i]*self._activFuncDeriv(self._val)
+            self._weights[i]+=self._learnRate*self._error*self._activFuncDeriv(self._val)*self._inputValues[i]
         self.__dict__['_bias']+=self._learnRate*self._error*self._activFuncDeriv(self._val)
         return self._error
+    def __setitem__(self,index,value):
+        if index=='learnRate':
+            self.__dict__['_learnRate']=value
     def __getitem__(self,index):
         if index=='error':
             return self._error
@@ -137,12 +140,14 @@ class Layer:
     def __len__(self):
         return len(self._perceptrons)
     def __getitem__(self,index):
+        if index=='learnRate':
+            return self._learnRate
         return self._perceptrons[index]
     def __setitem__(self,index,value):
         if index=='learnRate':
             self._learnRate=value
             for x in self._perceptrons:
-                x['learnRate']=value
+                x['learnRate']*=value
 
 
 
@@ -160,10 +165,11 @@ class Multilayer:
             self._perceptronLayers=layerList
     def __getitem__(self,index):
         return self._perceptronLayers[index]
+    
     def process(self,inputValues):
         inputValues=list(inputValues)
         values=[]
-        for p in self[0]:
+        for p in self._perceptronLayers[0]:
             values.append(p.process(inputValues[:len(p)]))
             inputValues=inputValues[len(p):]    
         for layer in self._perceptronLayers[1:]:
@@ -183,15 +189,16 @@ class Multilayer:
         weights=[[1] for _ in range(len(errors))]
         for layer in reversed(self._perceptronLayers):
             newErrors=[]
-            newWeights=[]
+            oldWeights=[]
             for p in layer:
-                newWeights.append(p[:])
+                oldWeights.append(p[:])
                 newErrors.append(p.propagateError(weights.pop(0),errors.pop(0)))
-            weights=list(zip(*newWeights))
+            weights=list(zip(*oldWeights))
             errors=[newErrors for x in range(len(weights))]
                 
 
 if __name__=='__main__':
+    """
     inputData=(
             ((0,0),0),
             ((0,1),0),
@@ -240,7 +247,7 @@ if __name__=='__main__':
     print('\n------------ max iter number ------------\n')
     for x in listPercMax:
         print(*x, sep=';')
-"""
+    """
     print('\n\n\n\n')
     
     
