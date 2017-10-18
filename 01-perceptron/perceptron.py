@@ -100,7 +100,7 @@ class Perceptron:
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*self._error*self._activFuncDeriv(self._val)*self._inputValues[i]
         self.__dict__['_bias']+=self._learnRate*self._error*self._activFuncDeriv(self._val)
-        return self._error
+        return self._activFuncDeriv(self._val)*self._error
     def __setitem__(self,index,value):
         if index=='learnRate':
             self.__dict__['_learnRate']=value
@@ -221,6 +221,10 @@ if __name__=='__main__':
             cont=False
             i+=1
             p.learn(*inputData[np.random.choice(len(inputData))])
+            #inp=inputData[np.random.choice(len(inputData))]
+            #e=inp[1]
+            #r=p.process(inp[0])
+            #p.propagateError([1],[e-r])
             for data,expected in inputData:
                 r=p.process(data)
                 if r!=expected:
@@ -258,7 +262,7 @@ if __name__=='__main__':
             ((1,1),[0])
             )
 
-    mult=Multilayer([2,2,1],[Sigm()(1.0),sign,sign],[Sigm().derivative(1.0),one,one])
+    mult=Multilayer([2,2,1],[naturalOne,Sigm()(1.0),naturalOne],[half,Sigm().derivative(1.0),half])
 
     i=0
     while(True):
@@ -266,17 +270,17 @@ if __name__=='__main__':
         i+=1
         inp=xorInputData[np.random.choice(len(xorInputData))]
         mult.learn(*inp)
-        print(inp)
-        for layer in mult:
-            for p in layer:
-                er=p['error']
-                if er==0:
-                    er=None
-                print(p,'inp:',p['input'],'val:',p['value'],'er:',er)
-        print('\n')
+#        print(inp)
+#        for layer in mult:
+ #           for p in layer:
+  #              er=p['error']
+  #              if er==0:
+  #                  er=None
+  #              print(p,'inp:',p['input'],'val:',p['value'],'er:',er)
+  #      print('\n')
         for data,expected in xorInputData:
             r=mult.process(data)
-            print(data,expected,r)
+ #           print(data,expected,r)
             if r[0]!=expected[0]:
                 cont=True
                 break
@@ -286,6 +290,6 @@ if __name__=='__main__':
     for data,expected in xorInputData:
         r=mult.process(data)
         print(data,r)
-    print('iter number: %d',i)
+    print('iter number: %d'% i)
  
-#"""
+###"""
