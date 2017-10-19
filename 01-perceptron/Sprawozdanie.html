@@ -7,7 +7,7 @@
 	<META NAME="AUTHOR" CONTENT="Piotr Tutak">
 	<META NAME="CREATED" CONTENT="20171017;17362255">
 	<META NAME="CHANGEDBY" CONTENT="Piotr Tutak">
-	<META NAME="CHANGED" CONTENT="20171019;16574646">
+	<META NAME="CHANGED" CONTENT="20171019;23045259">
 	<META NAME="Category" CONTENT="">
 	<META NAME="Company" CONTENT="">
 	<META NAME="Editor" CONTENT="OpenOffice/4.1.3$Win32 OpenOffice.org_project/413m1$Build-9783">
@@ -282,6 +282,8 @@ PiotrTutak</FONT></FONT></P>
 numpy as np</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>from
 itertools import zip_longest</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>import
+random</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm"><BR>
 </P>
 <P STYLE="margin-bottom: 0cm"><BR>
@@ -300,6 +302,12 @@ x&lt;0:</FONT></FONT></P>
 0.0</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>return
 float(x)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm"><BR>
+</P>
+<P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
+one(x):</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>return
+1.0</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm"><BR>
 </P>
 <P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
@@ -427,27 +435,6 @@ bias=-0.8*np.random.ranf()-0.1):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    
 </P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
-learn(self,inputValues,expectedValue,learnRate=False):</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
-len(inputValues)!=len(self._weights):</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>raise
-TypeError('Wrong values length')</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
-(learnRate):</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">           
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_learnRate']=learnRate</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">       
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>s=np.dot(self._weights,inputValues)+self._bias</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>s=self._activFunc(s)</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>for
-i in range(len(self._weights)):</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">           
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self._weights[i]+=self._learnRate*(expectedValue-s)*inputValues[i]</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">       
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_bias']+=self._learnRate*(expectedValue-s)</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">    
-</P>
-<P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
 process(self,inputValues):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
 len(inputValues)!=len(self._weights):</FONT></FONT></P>
@@ -470,13 +457,13 @@ len(errors)!=len(weights):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>raise
 TypeError('Wrong values length')</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">       
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_error']=np.dot(weights,errors)</FONT></FONT></P>
+<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_error']=np.dot(weights,errors)*self._activFuncDeriv(self._val)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>for
 i in range(len(self._weights)):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">           
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self._weights[i]+=self._learnRate*self._error*self._inputValues[i]*self._activFuncDeriv(self._val)</FONT></FONT></P>
+<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self._weights[i]+=self._learnRate*self._error*self._inputValues[i]</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">       
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_bias']+=self._learnRate*self._error*self._activFuncDeriv(self._val)</FONT></FONT></P>
+<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_bias']+=self._learnRate*self._error</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>return
 self._error</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    
@@ -545,7 +532,7 @@ for x in self._weights)+']'</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>class
 Layer:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
-__init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,weights=False,learnRate=False,bias=False):</FONT></FONT></P>
+__init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,weights=None,learnRate=None,bias=None):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">       
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_inputNumber']=inputNumber</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">       
@@ -554,8 +541,10 @@ __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,weights=False,le
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_activFunc']=activFunc</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">       
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_activFuncDeriv']=activFuncDeriv</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        
+</P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
-weights:</FONT></FONT></P>
+weights!=None:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>_weights=list(weights)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
 inputNumber&gt;len(_weights):</FONT></FONT></P>
@@ -566,22 +555,30 @@ for _ in range(inputNumber-len(_weights))])</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">           
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>_weights=[np.random.ranf()*np.random.choice([-1.0,1.0])
 for _ in range(inputNumber)]</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        
+</P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
-learnRate:</FONT></FONT></P>
+learnRate!=None:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">           
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_learnRate']=learnRate</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>else:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">           
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_learnRate']=0.1</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        
+</P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
-bias:</FONT></FONT></P>
+bias!=None:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>_bias=bias</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>else:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">           
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>_bias=-0.8*np.random.ranf()-0.1</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        
+</P>
 <P STYLE="margin-bottom: 0cm">       
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,bias=_bias,learnRate=self._learnRate)
 for _ in range(percepNumber)]</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">    
+</P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
 __len__(self):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>return
@@ -622,7 +619,7 @@ AttributeError('set: No such attribute: %r'%attr)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
 __repr__(self):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result='Layer(inputNumber:{0},
-perceptronNumber:{1},activFunc{2!s}, activFuncDeriv:{3!s},
+perceptronNumber:{1}, activFunc:{2!s}, activFuncDeriv:{3!s},
 learnRate:{4:.5f})'\</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">             
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>.format(self._inputNumber,self._percepNumber,self._activFunc.__name__,self._activFuncDeriv.__name__,self._learnRate)</FONT></FONT></P>
@@ -630,15 +627,11 @@ learnRate:{4:.5f})'\</FONT></FONT></P>
 result</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
 __str__(self):</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result='Layer(inputNumber:{0},
-perceptronNumber:{1},activFunc{2!s}, activFuncDeriv:{3!s},
-learnRate:{4:.5f})'\</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">             
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>.format(self._inputNumber,self._percepNumber,self._activFunc.__name__,self._activFuncDeriv.__name__,self._learnRate)</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+='\n'</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result=repr(self)+'\n'</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>for
 p in self:</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+=str(p)+'\n'</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+='
+       '+str(p)+'\n'</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>return
 result</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm"><BR>
@@ -650,8 +643,8 @@ result</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>class
 Multilayer:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>def
-__init__(self,layers,activFuncs=False,activFuncDerivs=False,weights=[False],
-learnRates=[False], biases=[False]):</FONT></FONT></P>
+__init__(self,layers,activFuncs=None,activFuncDerivs=None,weights=[],
+learnRates=[], biases=[]):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
 isinstance(layers[0],Layer):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>self._layers=layers</FONT></FONT></P>
@@ -736,7 +729,8 @@ __repr__(self):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result='Multilayer:\n'</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>for
 layer in self._layers:</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+=repr(layer)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+='
+   '+repr(layer)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+='\n'</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>return
 result</FONT></FONT></P>
@@ -745,7 +739,8 @@ __str__(self):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result='Multilayer:\n'</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>for
 layer in self._layers:</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+=str(layer)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+='
+   '+str(layer)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result+='\n'</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>return
 result</FONT></FONT></P>
@@ -757,6 +752,7 @@ result</FONT></FONT></P>
 </P>
 <P STYLE="margin-bottom: 0cm"><FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
 __name__=='__main__':</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>SigmFactory=SignSigm()</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>print('Funkcja
 AND:')</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>inputData=(</FONT></FONT></P>
@@ -783,13 +779,14 @@ or len(listPercAver)&lt;RES_NUMBER or len(listPercMax)&lt;RES_NUMBER):</FONT></F
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>w=[np.random.ranf()*np.random.choice([-1,1])
 for _ in range(2)]</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">       
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>p=Perceptron(w,hardOne,Stable()(1.0),learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)</FONT></FONT></P>
+<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>p=Perceptron(w,hardOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>i=0</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>while(True):</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>cont=False</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>run=True</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>while(run):</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>run=False</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>i+=1</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">           
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>inp=inputData[np.random.choice(len(inputData))]</FONT></FONT></P>
+<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>inp=random.choice(inputData)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>expected=inp[1]</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>result=p.process(inp[0])</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">           
@@ -799,11 +796,10 @@ data,expected in inputData:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">                <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>r=p.process(data)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">                <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
 r!=expected:</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">                    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>cont=True</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">                    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>run=True</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">                    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>break</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
-not cont:</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">                <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>break</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">                
+</P>
 <P STYLE="margin-bottom: 0cm">       
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>w='initialWeights:['+','.join('{:8.5f}'.format(x)
 for x in w)+']'</FONT></FONT></P>
@@ -845,7 +841,7 @@ x in listPercMax:</FONT></FONT></P>
 sep=';')</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm"><BR>
 </P>
-<P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>print('Funkcja
+<P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>print('\n\nFunkcja
 XOR:')</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>xorInputData=(</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>((0,0),[0]),</FONT></FONT></P>
@@ -853,6 +849,10 @@ XOR:')</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>((1,0),[1]),</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>((1,1),[0])</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>for
+x in xorInputData:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>print('data:
+',x[0],', expected: ',*x[1])</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm"><BR>
 </P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>listPercMin=[]</FONT></FONT></P>
@@ -862,13 +862,14 @@ XOR:')</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">   
 <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>while(len(listPercMin)+len(listPercAver)+len(listPercMax)&lt;RES_NUMBER):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">       
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>mult=Multilayer([2,2,1],[hardSign,SignSigm()(1.0),hardOne],[zero,SignSigm().derivative(1.),Stable()(1.0)],weights=[[1.0]],learnRates=[0.0,3.0,.01],biases=[-0.5])</FONT></FONT></P>
+<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>mult=Multilayer([2,2,1],[hardSign,SignSigm()(1.0),hardOne],[zero,SignSigm().derivative(1.0),one],weights=[[1.0]],learnRates=[0.0,3.0,.01],biases=[-0.5])</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>i=0</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>while(True):</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>cont=True</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>while(cont):</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>cont=False</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>i+=1</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">           
-<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>inp=xorInputData[np.random.choice(len(xorInputData))]</FONT></FONT></P>
+<FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>inp=random.choice(xorInputData)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>mult.learn(*inp)</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>for
 data,expected in xorInputData:</FONT></FONT></P>
@@ -878,10 +879,8 @@ r[0]!=expected[0]:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">                    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>cont=True</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">                    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>break</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
-not cont:</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">                <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>break</FONT></FONT></P>
-<P STYLE="margin-bottom: 0cm">            <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
 i&gt;5000:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">                <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>cont=False</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">                <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>break</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>if
 i&lt;10 and len(listPercMin)&lt;RES_NUMBER:</FONT></FONT></P>
@@ -925,5 +924,6 @@ x in listPercMax:</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">        <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>print(x[1],end='
 ')</FONT></FONT></P>
 <P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>print('\n')</FONT></FONT></P>
+<P STYLE="margin-bottom: 0cm">    <FONT FACE="Calibri Light, sans-serif"><FONT SIZE=2>print(mult)</FONT></FONT></P>
 </BODY>
 </HTML>

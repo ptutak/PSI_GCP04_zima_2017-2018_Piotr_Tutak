@@ -253,6 +253,7 @@ class Multilayer:
                 
 
 if __name__=='__main__':
+    SigmFactory=SignSigm()
     print('Funkcja AND:')
     inputData=(
             ((0,0),0),
@@ -274,20 +275,18 @@ if __name__=='__main__':
         i=0
         run=True
         while(run):
-            samples=list(inputData)
-            while(samples and run):
-                run=False
-                i+=1
-                inp=random.sample(samples,1).pop(0)
-                expected=inp[1]
-                result=p.process(inp[0])
-                p.propagateError([1],[expected-result])
-                for data,expected in inputData:
-                    r=p.process(data)
-                    if r!=expected:
-                        run=True
-                        break
-                    
+            run=False
+            i+=1
+            inp=random.choice(inputData)
+            expected=inp[1]
+            result=p.process(inp[0])
+            p.propagateError([1],[expected-result])
+            for data,expected in inputData:
+                r=p.process(data)
+                if r!=expected:
+                    run=True
+                    break
+                
         w='initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']'
         if i<10 and len(listPercMin)<RES_NUMBER:
             listPercMin.append((w,p,"iterNumber: %d"%i))
@@ -315,30 +314,30 @@ if __name__=='__main__':
             ((1,0),[1]),
             ((1,1),[0])
             )
+    for x in xorInputData:
+        print('data: ',x[0],', expected: ',*x[1])
 
     listPercMin=[]
     listPercAver=[]
     listPercMax=[]
     RES_NUMBER=100
     while(len(listPercMin)+len(listPercAver)+len(listPercMax)<RES_NUMBER):
-        mult=Multilayer([2,2,1],[hardSign,SignSigm()(1.0),hardOne],[zero,SignSigm().derivative(1.),one],weights=[[1.0]],learnRates=[0.0,3.0,.01],biases=[-0.5])
+        mult=Multilayer([2,2,1],[hardSign,SignSigm()(1.0),hardOne],[zero,SignSigm().derivative(1.0),one],weights=[[1.0]],learnRates=[0.0,3.0,.01],biases=[-0.5])
         i=0
         cont=True
         while(cont):
-            samples=list(xorInputData)
-            while(samples and cont):
-                cont=False
-                i+=1
-                inp=random.sample(samples,1).pop(0)
-                mult.learn(*inp)
-                for data,expected in xorInputData:
-                    r=mult.process(data)
-                    if r[0]!=expected[0]:
-                        cont=True
-                        break
-                if i>5000:
-                    cont=False
+            cont=False
+            i+=1
+            inp=random.choice(xorInputData)
+            mult.learn(*inp)
+            for data,expected in xorInputData:
+                r=mult.process(data)
+                if r[0]!=expected[0]:
+                    cont=True
                     break
+            if i>5000:
+                cont=False
+                break
         if i<10 and len(listPercMin)<RES_NUMBER:
             listPercMin.append((mult,"iterNumber: %d;"%i))
             print(i)
