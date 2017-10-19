@@ -13,28 +13,32 @@ from itertools import zip_longest
 def ident(x):
     return x
 
-def one(x):
-    return 1.0
-
 def zero(x):
     return 0.0
 
-def naturalOne(x):
-    if x<=0:
-        return 0.0
+class 
+
+def one(x):
     return 1.0
+
 def half(x):
     return 0.5
-
-def quatro(x):
+ 
+def quater(x):
     return 0.25
 
-def sign(x):
+
+def hardOne(x):
+    if x<0:
+        return 0.0
+    return 1.0
+
+
+def hardSign(x):
     if x<0:
         return -1.0
-    elif x>0:
-        return 1.0
-    return 0.0
+    return 1.0
+    
 
 def squash(x):
     if x<-1:
@@ -53,7 +57,7 @@ class Sigm:
             return alfa*np.exp(-alfa*x)/((1.0+np.exp(-alfa*x))**2)
         return sigmDeriv
 
-class NegSigm:
+class SignSigm:
     def __call__(self,alfa):
         def sigm(x):
             return (2.0/(1.0+np.exp(-alfa*x)))-1.0
@@ -75,6 +79,7 @@ class Perceptron:
         self.__dict__['_error']=None
         self.__dict__['_inputValues']=None
         self.__dict__['_val']=None
+    
     def learn(self,inputValues,expectedValue,learnRate=False):
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
@@ -85,12 +90,14 @@ class Perceptron:
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*(expectedValue-s)*inputValues[i]
         self.__dict__['_bias']+=self._learnRate*(expectedValue-s)
+    
     def process(self,inputValues):
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
         self.__dict__['_inputValues']=np.array(inputValues)
         self.__dict__['_val']=np.dot(self._weights,self._inputValues)+self._bias
         return self._activFunc(self._val)
+    
     def propagateError(self,weights,errors):
         weights=np.array(weights)
         errors=np.array(errors)
@@ -98,12 +105,14 @@ class Perceptron:
             raise TypeError('Wrong values length')
         self.__dict__['_error']=np.dot(weights,errors)
         for i in range(len(self._weights)):
-            self._weights[i]+=self._learnRate*self._error*self._activFuncDeriv(self._val)*self._inputValues[i]
+            self._weights[i]+=self._learnRate*self._error*self._inputValues[i]*self._activFuncDeriv(self._val)
         self.__dict__['_bias']+=self._learnRate*self._error*self._activFuncDeriv(self._val)
-        return self._activFuncDeriv(self._val)*self._error
+        return self._error*self._activFuncDeriv(self._val)
+    
     def __setitem__(self,index,value):
         if index=='learnRate':
             self.__dict__['_learnRate']=value
+    
     def __getitem__(self,index):
         if index=='error':
             return self._error
@@ -112,67 +121,104 @@ class Perceptron:
         elif index=='value':
             return self._val
         return self._weights[index]
+    
     def __getattr__(self,attr):
         raise AttributeError('get: No such attribute: %r'%attr)
+    
     def __setattr__(self,attr,value):
         raise AttributeError('set: No such attribute: %r'%attr)
+    
     def __iter__(self):
         return iter(self._weights)
+    
     def __len__(self):
         return len(self._weights)
+    
     def __repr__(self):
         w='['+','.join('{:8.5f}'.format(x) for x in self._weights)+']'
-        return 'Perceptron(weights:{0},bias:{1:8.5f},learnRate:({2:.5f}),activFunc:{3!r})'.format(w,self._bias,self._learnRate,self._activFunc.__name__)
+        return 'Perceptron(weights:{0},bias:{1:8.5f},learnRate:{2:.5f},activFunc:{3!s})'.format(w,self._bias,self._learnRate,self._activFunc.__name__)
 
 
 class Layer:
-    def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,learnRate=False,bias=False):
+    def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,weights=False,learnRate=False,bias=False):
+        self.__dict__['_inputNumber']=inputNumber
+        self.__dict__['_percepNumber']=percepNumber
+        self.__dict__['_activFunc']=activFunc
+        self.__dict__['_activFuncDeriv']=activFuncDeriv
+        if weights:
+            _weights=list(weights)
+            if inputNumber>len(_weights):
+                _weights.extend([np.random.ranf()*np.random.choice([-1.0,1.0]) for _ in range(inputNumber-len(_weights))])
+        else:
+            _weights=[np.random.ranf()*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)]
         if learnRate:
-            self._learnRate=learnRate
+            self.__dict__['_learnRate']=learnRate
         else:
-            self._learnRate=0.1
+            self.__dict__['_learnRate']=0.1
         if bias:
-            self._bias=bias
+            _bias=bias
         else:
-            self._bias=-1.0*np.random.ranf()
-        #self._perceptrons=[Perceptron([1.0 for _ in range(inputNumber)],activFunc,activFuncDeriv) for _ in range(percepNumber)]
-        self._perceptrons=[Perceptron([np.random.ranf()*np.random.choice([-1,1]) for _ in range(inputNumber)],activFunc,activFuncDeriv,bias=np.random.ranf()*-1) for _ in range(percepNumber)]
+            _bias=-1.0*np.random.ranf()
+        self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,bias=_bias,learnRate=self._learnRate) for _ in range(percepNumber)]
     def __len__(self):
         return len(self._perceptrons)
     def __getitem__(self,index):
         if index=='learnRate':
             return self._learnRate
         return self._perceptrons[index]
+    def __iter__(self):
+        return iter(self._perceptrons)
     def __setitem__(self,index,value):
         if index=='learnRate':
-            self._learnRate=value
+            self.__dict__['_learnRate']=value
             for x in self._perceptrons:
                 x['learnRate']*=value
+    def __getattr__(self,attr):
+        raise AttributeError('get: No such attribute: %r'%attr)
+    
+    def __setattr__(self,attr,value):
+        raise AttributeError('set: No such attribute: %r'%attr)
+        
+    def __repr__(self):
+        result='Layer(inputNumber:{0}, perceptronNumber:{1},activFunc{2!s}, activFuncDeriv:{3!s}, learnRate:{4:.5f})'\
+              .format(self._inputNumber,self._percepNumber,self._activFunc.__name__,self._activFuncDeriv.__name__,self._learnRate)
+        return result
+    def __str__(self):
+        result='Layer(inputNumber:{0}, perceptronNumber:{1},activFunc{2!s}, activFuncDeriv:{3!s}, learnRate:{4:.5f})'\
+              .format(self._inputNumber,self._percepNumber,self._activFunc.__name__,self._activFuncDeriv.__name__,self._learnRate)
+        result+='\n'
+        for p in self:
+            result+=str(p)+'\n'
+        return result
 
 
 
 class Multilayer:
-    def __init__(self,perceptronLayers,activFuncs=False,activFuncDerivs=False):
-        if isinstance(perceptronLayers[0],Layer):
-            self._perceptronLayers=perceptronLayers
-        elif isinstance(perceptronLayers[0],int):
-            l=zip_longest(perceptronLayers,activFuncs,activFuncDerivs,fillvalue=None)
+    def __init__(self,layers,activFuncs=False,activFuncDerivs=False,weights=False):
+        if isinstance(layers[0],Layer):
+            self._layers=layers
+        elif isinstance(layers[0],int):
+            if not all([activFuncs,activFuncDerivs]):
+                raise TypeError('Missing activation functions or derivatives')
+            percepNumbers=layers
+            l=zip_longest(percepNumbers,activFuncs,activFuncDerivs,weights,fillvalue=None)
             prev=next(l)
             layerList=[Layer(1,*prev)]
             for x in l:
                 layerList.append(Layer(prev[0],*x))
                 prev=x
-            self._perceptronLayers=layerList
+            self._layers=layerList
     def __getitem__(self,index):
-        return self._perceptronLayers[index]
-    
+        return self._layers[index]
+    def __iter__(self):
+        return iter(self._layers)
     def process(self,inputValues):
         inputValues=list(inputValues)
         values=[]
-        for p in self._perceptronLayers[0]:
+        for p in self._layers[0]:
             values.append(p.process(inputValues[:len(p)]))
             inputValues=inputValues[len(p):]    
-        for layer in self._perceptronLayers[1:]:
+        for layer in self._layers[1:]:
             inputValues=values
             values=[]
             for p in layer:
@@ -187,7 +233,7 @@ class Multilayer:
         for _ in range(i):
             errors.append([next(expectedValues)-next(results)])
         weights=[[1] for _ in range(len(errors))]
-        for layer in reversed(self._perceptronLayers):
+        for layer in reversed(self._layers):
             newErrors=[]
             oldWeights=[]
             for p in layer:
@@ -195,6 +241,13 @@ class Multilayer:
                 newErrors.append(p.propagateError(weights.pop(0),errors.pop(0)))
             weights=list(zip(*oldWeights))
             errors=[newErrors for x in range(len(weights))]
+    def __repr__(self):
+        result='Multilayer:\n'
+        for layer in self._layers:
+            result+=repr(layer)
+            result+='\n'
+        return result
+        
                 
 
 if __name__=='__main__':
@@ -220,11 +273,11 @@ if __name__=='__main__':
         while(True):
             cont=False
             i+=1
-            p.learn(*inputData[np.random.choice(len(inputData))])
-            #inp=inputData[np.random.choice(len(inputData))]
-            #e=inp[1]
-            #r=p.process(inp[0])
-            #p.propagateError([1],[e-r])
+            #p.learn(*inputData[np.random.choice(len(inputData))])
+            inp=inputData[np.random.choice(len(inputData))]
+            expected=inp[1]
+            result=p.process(inp[0])
+            p.propagateError([1],[expected-result])
             for data,expected in inputData:
                 r=p.process(data)
                 if r!=expected:
@@ -252,9 +305,7 @@ if __name__=='__main__':
     for x in listPercMax:
         print(*x, sep=';')
     """
-    print('\n\n\n\n')
-    
-    
+
     xorInputData=(
             ((0,0),[0]),
             ((0,1),[1]),
@@ -262,34 +313,42 @@ if __name__=='__main__':
             ((1,1),[0])
             )
 
-    mult=Multilayer([2,2,1],[naturalOne,Sigm()(1.0),naturalOne],[half,Sigm().derivative(1.0),half])
-
-    i=0
-    while(True):
-        cont=False
-        i+=1
-        inp=xorInputData[np.random.choice(len(xorInputData))]
-        mult.learn(*inp)
-#        print(inp)
-#        for layer in mult:
- #           for p in layer:
-  #              er=p['error']
-  #              if er==0:
-  #                  er=None
-  #              print(p,'inp:',p['input'],'val:',p['value'],'er:',er)
-  #      print('\n')
-        for data,expected in xorInputData:
-            r=mult.process(data)
- #           print(data,expected,r)
-            if r[0]!=expected[0]:
-                cont=True
+    listPercMin=[]
+    listPercAver=[]
+    listPercMax=[]
+    RES_NUMBER=100
+    while(len(listPercMin)+len(listPercAver)+len(listPercMax)<RES_NUMBER):
+        mult=Multilayer([2,2,1],[hardSign,SignSigm()(1.0),hardOne],[zero,SignSigm().derivative(1.0),one],weights=[[1.0]])
+        i=0
+        while(True):
+            cont=False
+            i+=1
+            inp=xorInputData[np.random.choice(len(xorInputData))]
+            mult.learn(*inp)
+            for data,expected in xorInputData:
+                r=mult.process(data)
+                if r[0]!=expected[0]:
+                    cont=True
+                    break
+            if not cont:
                 break
-        if not cont:
-            break
- #       time.sleep(1)
-    for data,expected in xorInputData:
-        r=mult.process(data)
-        print(data,r)
-    print('iter number: %d'% i)
+        if i<10 and len(listPercMin)<RES_NUMBER:
+            listPercMin.append((mult,"iterNumber: %d"%i))
+            print(i)
+        elif i>=10 and i<1000 and len(listPercAver)<RES_NUMBER:
+            listPercAver.append((mult,"iterNumber: %d"%i))
+            print(i)
+        elif i>=1000 and len(listPercMax)<RES_NUMBER:
+            listPercMax.append((mult,"iterNumber: %d"%i))
+            print(i)
+    print('\n------------ min iter number ------------\n')
+    for x in listPercMin:
+        print(*x, sep=';')
+    print('\n------------ average iter number ------------\n')
+    for x in listPercAver:
+        print(*x, sep=';')
+    print('\n------------ max iter number ------------\n')
+    for x in listPercMax:
+        print(*x, sep=';')
  
 ###"""
