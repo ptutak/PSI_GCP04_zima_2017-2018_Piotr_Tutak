@@ -6,26 +6,25 @@ Created on Tue Oct 10 19:39:26 2017
 """
 
 import numpy as np
-import time
 from itertools import zip_longest
 
 
 def ident(x):
-    return x
+    return float(x)
+
+def positiveIdent(x):
+    if x<0:
+        return 0.0
+    return float(x)
 
 def zero(x):
     return 0.0
 
-class 
-
-def one(x):
-    return 1.0
-
-def half(x):
-    return 0.5
- 
-def quater(x):
-    return 0.25
+class Stable:
+    def __call__(self,alfa):
+        def stable(x):
+            return float(alfa)
+        return stable
 
 
 def hardOne(x):
@@ -46,6 +45,7 @@ def squash(x):
     elif x>1:
         return 1.0
     return x
+
 
 class Sigm:
     def __call__(self,alfa):
@@ -70,7 +70,7 @@ class SignSigm:
 
 
 class Perceptron:
-    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-1.0*np.random.ranf()):
+    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-0.8*np.random.ranf()-0.1):
         self.__dict__['_weights']=np.array(weights)
         self.__dict__['_learnRate']=learnRate
         self.__dict__['_activFunc']=activFunc
@@ -107,7 +107,7 @@ class Perceptron:
         for i in range(len(self._weights)):
             self._weights[i]+=self._learnRate*self._error*self._inputValues[i]*self._activFuncDeriv(self._val)
         self.__dict__['_bias']+=self._learnRate*self._error*self._activFuncDeriv(self._val)
-        return self._error*self._activFuncDeriv(self._val)
+        return self._error
     
     def __setitem__(self,index,value):
         if index=='learnRate':
@@ -158,7 +158,7 @@ class Layer:
         if bias:
             _bias=bias
         else:
-            _bias=-1.0*np.random.ranf()
+            _bias=-0.8*np.random.ranf()-0.1
         self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,bias=_bias,learnRate=self._learnRate) for _ in range(percepNumber)]
     def __len__(self):
         return len(self._perceptrons)
@@ -194,14 +194,14 @@ class Layer:
 
 
 class Multilayer:
-    def __init__(self,layers,activFuncs=False,activFuncDerivs=False,weights=False):
+    def __init__(self,layers,activFuncs=False,activFuncDerivs=False,weights=[False], learnRates=[False], biases=[False]):
         if isinstance(layers[0],Layer):
             self._layers=layers
         elif isinstance(layers[0],int):
             if not all([activFuncs,activFuncDerivs]):
                 raise TypeError('Missing activation functions or derivatives')
             percepNumbers=layers
-            l=zip_longest(percepNumbers,activFuncs,activFuncDerivs,weights,fillvalue=None)
+            l=zip_longest(percepNumbers,activFuncs,activFuncDerivs,weights,learnRates,biases,fillvalue=None)
             prev=next(l)
             layerList=[Layer(1,*prev)]
             for x in l:
@@ -247,11 +247,17 @@ class Multilayer:
             result+=repr(layer)
             result+='\n'
         return result
+    def __str__(self):
+        result='Multilayer:\n'
+        for layer in self._layers:
+            result+=str(layer)
+            result+='\n'
+        return result
         
                 
 
 if __name__=='__main__':
-    """
+    print('Funkcja AND:')
     inputData=(
             ((0,0),0),
             ((0,1),0),
@@ -268,12 +274,11 @@ if __name__=='__main__':
     
     while(len(listPercMin)<RES_NUMBER or len(listPercAver)<RES_NUMBER or len(listPercMax)<RES_NUMBER):
         w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
-        p=Perceptron(w,naturalOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1)
+        p=Perceptron(w,hardOne,Stable()(1.0),learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)
         i=0
         while(True):
             cont=False
             i+=1
-            #p.learn(*inputData[np.random.choice(len(inputData))])
             inp=inputData[np.random.choice(len(inputData))]
             expected=inp[1]
             result=p.process(inp[0])
@@ -304,8 +309,8 @@ if __name__=='__main__':
     print('\n------------ max iter number ------------\n')
     for x in listPercMax:
         print(*x, sep=';')
-    """
 
+    print('Funkcja XOR:')
     xorInputData=(
             ((0,0),[0]),
             ((0,1),[1]),
@@ -318,7 +323,7 @@ if __name__=='__main__':
     listPercMax=[]
     RES_NUMBER=100
     while(len(listPercMin)+len(listPercAver)+len(listPercMax)<RES_NUMBER):
-        mult=Multilayer([2,2,1],[hardSign,SignSigm()(1.0),hardOne],[zero,SignSigm().derivative(1.0),one],weights=[[1.0]])
+        mult=Multilayer([2,2,1],[hardSign,SignSigm()(1.0),hardOne],[zero,SignSigm().derivative(1.),Stable()(1.0)],weights=[[1.0]],learnRates=[0.0,3.0,.01],biases=[-0.5])
         i=0
         while(True):
             cont=False
@@ -332,23 +337,26 @@ if __name__=='__main__':
                     break
             if not cont:
                 break
+            if i>5000:
+                break
         if i<10 and len(listPercMin)<RES_NUMBER:
-            listPercMin.append((mult,"iterNumber: %d"%i))
+            listPercMin.append((mult,"iterNumber: %d;"%i))
             print(i)
-        elif i>=10 and i<1000 and len(listPercAver)<RES_NUMBER:
-            listPercAver.append((mult,"iterNumber: %d"%i))
+        elif i>=10 and i<100 and len(listPercAver)<RES_NUMBER:
+            listPercAver.append((mult,"iterNumber: %d;"%i))
             print(i)
-        elif i>=1000 and len(listPercMax)<RES_NUMBER:
-            listPercMax.append((mult,"iterNumber: %d"%i))
+        elif i>=100 and len(listPercMax)<RES_NUMBER:
+            listPercMax.append((mult,"iterNumber: %d;"%i))
             print(i)
-    print('\n------------ min iter number ------------\n')
+    print('\n------------ percentage ------------\n')
+    print('min iter: ',len(listPercMin),'; aver iter: ',len(listPercAver),'; max iter: ',len(listPercMax))
+    print('\n\n------------ min iter number ------------')
     for x in listPercMin:
-        print(*x, sep=';')
-    print('\n------------ average iter number ------------\n')
+        print(x[1],end=' ')
+    print('\n\n------------ average iter number ------------')
     for x in listPercAver:
-        print(*x, sep=';')
-    print('\n------------ max iter number ------------\n')
+        print(x[1],end=' ')
+    print('\n\n------------ max iter number ------------')
     for x in listPercMax:
-        print(*x, sep=';')
- 
-###"""
+        print(x[1],end=' ')
+    print('\n')
