@@ -7,8 +7,13 @@ Created on Tue Oct 10 19:39:26 2017
 
 import numpy as np
 from itertools import zip_longest
+from operator import itemgetter
 import random
+import sys
 
+"""
+Różne funkcje aktywacji używane w testowaniu perceptronu: 
+"""
 
 def ident(x):
     return float(x)
@@ -74,6 +79,9 @@ class SignSigm:
 
 
 class Perceptron:
+    """
+    Klasa Perceptron
+    """
     def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-0.8*np.random.ranf()-0.1):
         self.__dict__['_weights']=np.array(weights)
         self.__dict__['_learnRate']=learnRate
@@ -85,6 +93,9 @@ class Perceptron:
         self.__dict__['_val']=None
     
     def process(self,inputValues):
+        """
+        Funkcja przetwarzająca dane wejsciowe na dane wyjsciowe
+        """
         if len(inputValues)!=len(self._weights):
             raise TypeError('Wrong values length')
         self.__dict__['_inputValues']=np.array(inputValues)
@@ -92,6 +103,9 @@ class Perceptron:
         return self._activFunc(self._val)
     
     def propagateError(self,weights,errors):
+        """
+        Funkcja propagująca błąd i korygująca wagi oraz bias
+        """
         weights=np.array(weights)
         errors=np.array(errors)
         if len(errors)!=len(weights):
@@ -102,7 +116,9 @@ class Perceptron:
                 self._weights[i]+=self._learnRate*self._error*self._inputValues[i]
             self.__dict__['_bias']+=self._learnRate*self._error
         return self._error
-    
+    """
+    Funkcje dostępowe:
+    """
     def __setitem__(self,index,value):
         if index=='learnRate':
             self.__dict__['_learnRate']=value
@@ -114,6 +130,8 @@ class Perceptron:
             return self._inputValues
         elif index=='value':
             return self._val
+        elif index=='learnRate':
+            return self._learnRate
         return self._weights[index]
     
     def __getattr__(self,attr):
@@ -134,6 +152,9 @@ class Perceptron:
 
 
 class Layer:
+    """
+    Klasa wartstwy używana w wielowarstwowej sieci neuronowej.
+    """
     def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,weights=None,learnRate=None,bias=None):
         self.__dict__['_inputNumber']=inputNumber
         self.__dict__['_percepNumber']=percepNumber
@@ -158,7 +179,9 @@ class Layer:
             _bias=-0.8*np.random.ranf()-0.1
         
         self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,bias=_bias,learnRate=self._learnRate) for _ in range(percepNumber)]
-    
+    """
+    Funkcje dostępowe
+    """
     def __len__(self):
         return len(self._perceptrons)
     def __getitem__(self,index):
@@ -191,6 +214,9 @@ class Layer:
 
 
 class Multilayer:
+    """
+    Wielowarstwa z możliwoscią zaprogramwania indywidualnie każdej wartstwy
+    """
     def __init__(self,layers,activFuncs=None,activFuncDerivs=None,weights=[], learnRates=[], biases=[]):
         if isinstance(layers[0],Layer):
             self._layers=layers
@@ -205,11 +231,10 @@ class Multilayer:
                 layerList.append(Layer(prev[0],*x))
                 prev=x
             self._layers=layerList
-    def __getitem__(self,index):
-        return self._layers[index]
-    def __iter__(self):
-        return iter(self._layers)
     def process(self,inputValues):
+        """
+        Funkcja przetwarzająca dane wejsciowe sieci na dane wyjsciowe
+        """
         inputValues=list(inputValues)
         values=[]
         for p in self._layers[0]:
@@ -223,6 +248,10 @@ class Multilayer:
         return values
         
     def learn(self,inputValues,expectedValues):
+        """
+        Funkcja ucząca sieć neuronową po uprzednim nadaniu współczynników uczenia
+        dla każdej wartwy
+        """
         results=iter(self.process(inputValues))
         i=len(expectedValues)
         expectedValues=iter(expectedValues)
@@ -238,6 +267,13 @@ class Multilayer:
                 newErrors.append(p.propagateError(weights.pop(0),errors.pop(0)))
             weights=list(zip(*oldWeights))
             errors=[newErrors for x in range(len(weights))]
+    """
+    Funkcje dostępowe
+    """
+    def __getitem__(self,index):
+        return self._layers[index]
+    def __iter__(self):
+        return iter(self._layers)
     def __repr__(self):
         result='Multilayer:\n'
         for layer in self._layers:
@@ -254,6 +290,14 @@ class Multilayer:
                 
 
 if __name__=='__main__':
+    """
+    Kod programu przeprowadzającego uczenie i testowanie perceptronu
+    Wyjscie jest przekierowywane do pliku results.txt
+    """
+    STDOUT=sys.stdout
+    f=open('results.txt','w');
+    sys.stdout=f
+    
     SigmFactory=SignSigm()
     print('Funkcja AND:')
     inputData=(
@@ -265,12 +309,9 @@ if __name__=='__main__':
     for x in inputData:
         print("data: {0}, expected: {1}".format(*x))
     
-    listPercMin=[]
-    listPercAver=[]
-    listPercMax=[]
-    RES_NUMBER=1
-    
-    while(len(listPercMin)+len(listPercAver)+len(listPercMax)<RES_NUMBER):
+    listPerc=[]
+    RES_NUMBER=100
+    while(len(listPerc)<RES_NUMBER):
         w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
         p=Perceptron(w,hardOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)
         i=0
@@ -295,30 +336,17 @@ if __name__=='__main__':
                 print(i,bad,sep=';')
         print(p)
 
-        w=('initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']')
+        #w=('initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']')
         
-        if i<10 and len(listPercMin)<RES_NUMBER:
-            listPercMin.append((w,p,"iterNumber: %d"%i))
-            print(i)
-        
-        elif i>=10 and i<1000 and len(listPercAver)<RES_NUMBER:
-            listPercAver.append((w,p,"iterNumber: %d"%i))
-            print(i)
-        elif i>=1000 and len(listPercMax)<RES_NUMBER:
-            listPercMax.append((w,p,"iterNumber: %d"%i))
-            print(i)
-        
-    print('\n------------ min iter number ------------\n')
-    for x in listPercMin:
-        print(*x, sep=';')
-    print('\n------------ average iter number ------------\n')
-    for x in listPercAver:
-        print(*x, sep=';')
-    print('\n------------ max iter number ------------\n')
-    for x in listPercMax:
-        print(*x, sep=';')
-    
+        listPerc.append((w,p[:],p['learnRate'],i))
+    for x in sorted(listPerc,key=itemgetter(2)):
+        print(*x,sep=';')
+    sys.stdout=STDOUT
+    f.close()
     """
+    #Kod testujący funkcję XOR na sieci neuronowej:
+        
+    
     print('\n\nFunkcja XOR:')
     xorInputData=(
             ((0,0),[0]),
