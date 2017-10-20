@@ -268,40 +268,47 @@ if __name__=='__main__':
     listPercMin=[]
     listPercAver=[]
     listPercMax=[]
-    RES_NUMBER=10
+    RES_NUMBER=1
     
-    while(len(listPercMin)<RES_NUMBER or len(listPercAver)<RES_NUMBER or len(listPercMax)<RES_NUMBER):
+    while(len(listPercMin)+len(listPercAver)+len(listPercMax)<RES_NUMBER):
         w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
         p=Perceptron(w,hardOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)
+        
         i=0
         run=True
+        print(p)
+        print('iteration;bad')
         while(run):
             samples=list(inputData)
             while(run and samples):
-                run=False
                 i+=1
                 inp=random.sample(samples,1).pop(0)
                 expected=inp[1]
                 result=p.process(inp[0])
                 p.propagateError([1],[expected-result])
-                error=0.0
+                bad=0
                 for data,expected in inputData:
                     r=p.process(data)
-                    error=max(error,abs(p['error']))
                     if r!=expected:
-                        run=True
-                print('iteration: ',i,'  error: ',error)
-                
-        w='initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']'
+                        bad+=1
+                if bad==0:
+                    run=False
+                print(i,bad,sep=';')
+        print(p)
+
+        w=('initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']')
+        
         if i<10 and len(listPercMin)<RES_NUMBER:
             listPercMin.append((w,p,"iterNumber: %d"%i))
             print(i)
+        
         elif i>=10 and i<1000 and len(listPercAver)<RES_NUMBER:
             listPercAver.append((w,p,"iterNumber: %d"%i))
             print(i)
         elif i>=1000 and len(listPercMax)<RES_NUMBER:
             listPercMax.append((w,p,"iterNumber: %d"%i))
             print(i)
+        
     print('\n------------ min iter number ------------\n')
     for x in listPercMin:
         print(*x, sep=';')
