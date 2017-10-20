@@ -306,7 +306,7 @@ if __name__=='__main__':
     print('\n------------ max iter number ------------\n')
     for x in listPercMax:
         print(*x, sep=';')
-
+    """
     print('\n\nFunkcja XOR:')
     xorInputData=(
             ((0,0),[0]),
@@ -360,3 +360,4 @@ if __name__=='__main__':
         print(x[1],end=' ')
     print('\n')
     print(mult)
+    """

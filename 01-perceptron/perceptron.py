@@ -24,11 +24,11 @@ def one(x):
 def zero(x):
     return 0.0
 
-class Stable:
+class Const:
     def __call__(self,alfa):
-        def stable(x):
+        def const(x):
             return float(alfa)
-        return stable
+        return const
 
 
 def hardOne(x):
@@ -275,17 +275,20 @@ if __name__=='__main__':
         i=0
         run=True
         while(run):
-            run=False
-            i+=1
-            inp=random.choice(inputData)
-            expected=inp[1]
-            result=p.process(inp[0])
-            p.propagateError([1],[expected-result])
-            for data,expected in inputData:
-                r=p.process(data)
-                if r!=expected:
-                    run=True
-                    break
+            samples=list(inputData)
+            while(run and samples):
+                run=False
+                i+=1
+                inp=random.sample(samples)
+                expected=inp[1]
+                result=p.process(inp[0])
+                p.propagateError([1],[expected-result])
+                for data,expected in inputData:
+                    r=p.process(data)
+                    if r!=expected:
+                        run=True
+                        break
+                p['error']
                 
         w='initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']'
         if i<10 and len(listPercMin)<RES_NUMBER:
@@ -306,7 +309,8 @@ if __name__=='__main__':
     print('\n------------ max iter number ------------\n')
     for x in listPercMax:
         print(*x, sep=';')
-
+    
+    """
     print('\n\nFunkcja XOR:')
     xorInputData=(
             ((0,0),[0]),
@@ -360,3 +364,4 @@ if __name__=='__main__':
         print(x[1],end=' ')
     print('\n')
     print(mult)
+    """
