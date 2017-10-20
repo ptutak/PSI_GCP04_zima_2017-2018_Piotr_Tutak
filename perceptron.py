@@ -24,11 +24,11 @@ def one(x):
 def zero(x):
     return 0.0
 
-class Stable:
+class Const:
     def __call__(self,alfa):
-        def stable(x):
+        def const(x):
             return float(alfa)
-        return stable
+        return const
 
 
 def hardOne(x):
@@ -204,10 +204,7 @@ class Multilayer:
                 layerList.append(Layer(prev[0],*x))
                 prev=x
             self._layers=layerList
-    def __getitem__(self,index):
-        return self._layers[index]
-    def __iter__(self):
-        return iter(self._layers)
+    
     def process(self,inputValues):
         inputValues=list(inputValues)
         values=[]
@@ -237,6 +234,10 @@ class Multilayer:
                 newErrors.append(p.propagateError(weights.pop(0),errors.pop(0)))
             weights=list(zip(*oldWeights))
             errors=[newErrors for x in range(len(weights))]
+    def __getitem__(self,index):
+        return self._layers[index]
+    def __iter__(self):
+        return iter(self._layers)
     def __repr__(self):
         result='Multilayer:\n'
         for layer in self._layers:
@@ -286,7 +287,6 @@ if __name__=='__main__':
                 if r!=expected:
                     run=True
                     break
-                
         w='initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']'
         if i<10 and len(listPercMin)<RES_NUMBER:
             listPercMin.append((w,p,"iterNumber: %d"%i))
