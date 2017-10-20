@@ -97,9 +97,10 @@ class Perceptron:
         if len(errors)!=len(weights):
             raise TypeError('Wrong values length')
         self.__dict__['_error']=np.dot(weights,errors)*self._activFuncDeriv(self._val)
-        for i in range(len(self._weights)):
-            self._weights[i]+=self._learnRate*self._error*self._inputValues[i]
-        self.__dict__['_bias']+=self._learnRate*self._error
+        if (self._learnRate):
+            for i in range(len(self._weights)):
+                self._weights[i]+=self._learnRate*self._error*self._inputValues[i]
+            self.__dict__['_bias']+=self._learnRate*self._error
         return self._error
     
     def __setitem__(self,index,value):
@@ -279,16 +280,17 @@ if __name__=='__main__':
             while(run and samples):
                 run=False
                 i+=1
-                inp=random.sample(samples)
+                inp=random.sample(samples,1).pop(0)
                 expected=inp[1]
                 result=p.process(inp[0])
                 p.propagateError([1],[expected-result])
+                error=0.0
                 for data,expected in inputData:
                     r=p.process(data)
+                    error=max(error,abs(p['error']))
                     if r!=expected:
                         run=True
-                        break
-                p['error']
+                print('iteration: ',i,'  error: ',error)
                 
         w='initialWeights:['+','.join('{:8.5f}'.format(x) for x in w)+']'
         if i<10 and len(listPercMin)<RES_NUMBER:
