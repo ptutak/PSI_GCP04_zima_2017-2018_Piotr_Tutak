@@ -273,7 +273,6 @@ if __name__=='__main__':
     while(len(listPercMin)+len(listPercAver)+len(listPercMax)<RES_NUMBER):
         w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
         p=Perceptron(w,hardOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)
-        
         i=0
         run=True
         print(p)
