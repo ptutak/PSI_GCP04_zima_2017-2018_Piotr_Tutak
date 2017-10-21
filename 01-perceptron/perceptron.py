@@ -343,6 +343,7 @@ if __name__=='__main__':
         print(*x,sep=';')
     sys.stdout=STDOUT
     f.close()
+    
     """
     #Kod testujący funkcję XOR na sieci neuronowej:
         
