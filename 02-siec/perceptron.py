@@ -182,17 +182,13 @@ class Layer:
         _bias=bias
         if _weights:
             if _bias!=None:
-                print(_bias)
                 self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(percepNumber)]
             else:
-                print('NO BIAS')
                 self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(percepNumber)]
         else:
             if _bias!=None:
-                print(_bias)
                 self.__dict__['_perceptrons']=[Perceptron([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(percepNumber)]
             else:
-                print('NO BIAS')
                 self.__dict__['_perceptrons']=[Perceptron([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(percepNumber)]
                 
     """
@@ -210,7 +206,7 @@ class Layer:
         if index=='learnRate':
             self.__dict__['_learnRate']=value
             for x in self._perceptrons:
-                x['learnRate']*=value
+                x['learnRate']=value
     def __getattr__(self,attr):
         raise AttributeError('get: No such attribute: %r'%attr)
     
@@ -268,11 +264,14 @@ class Multilayer:
         Funkcja ucząca sieć neuronową po uprzednim nadaniu współczynników uczenia
         dla każdej wartwy
         """
-        results=iter(self.process(inputValues))
-        i=len(expectedValues)
+        results=self.process(inputValues)
+        if len(results)!=len(expectedValues):
+            raise IndexError('wrong number of expected values')
+        results=iter(results)
+        lenExpectedValues=len(expectedValues)
         expectedValues=iter(expectedValues)
         errors=[]
-        for _ in range(i):
+        for _ in range(lenExpectedValues):
             errors.append([next(expectedValues)-next(results)])
         weights=[[1] for _ in range(len(errors))]
         for layer in reversed(self._layers):
@@ -286,6 +285,12 @@ class Multilayer:
     """
     Funkcje dostępowe
     """
+    def multiLearnRates(self,value):
+        for l in self._layers:
+            l['learnRate']*=value
+    def setLearnRates(self,value):
+        for l in self._layers:
+            l['learnRate']=value
     def __getitem__(self,index):
         return self._layers[index]
     def __iter__(self):
