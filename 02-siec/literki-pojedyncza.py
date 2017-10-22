@@ -8,7 +8,7 @@ Created on Sun Oct 22 11:20:52 2017
 from perceptron import *
 import random
 import time
-
+import numpy as np
 
 
 litery=dict()
@@ -36,13 +36,15 @@ listPerc=[]
 RES_NUMBER=1
 HIDDEN_LAYER_PERCEP_NUMB=15
 while(len(listPerc)<RES_NUMBER):
-    multilayer=Multilayer([35,HIDDEN_LAYER_PERCEP_NUMB,1],
+    multilayer=Multilayer(
+             [35,HIDDEN_LAYER_PERCEP_NUMB,1],
              [hardOne,SignSigm()(1.0),ident],
              [zero,SignSigm().derivative(1.0),one],
              [[1.0],None,[1.0 for x in range(HIDDEN_LAYER_PERCEP_NUMB)]],
              [0.0,0.1,0.0],
-             [-0.5,None,0.0])
-
+             [-0.5,-0.11,0.0]
+             )
+    print(multilayer)
     i=0
     run=True
     start=time.clock()

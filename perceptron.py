@@ -87,7 +87,7 @@ class Perceptron:
     """
     Klasa Perceptron
     """
-    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-0.8*np.random.ranf()-0.1):
+    def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-0.5):
         self.__dict__['_weights']=np.array(weights)
         self.__dict__['_learnRate']=learnRate
         self.__dict__['_activFunc']=activFunc
@@ -169,7 +169,7 @@ class Layer:
         if weights!=None:
             _weights=list(weights)
             if inputNumber>len(_weights):
-                _weights.extend([np.random.ranf()*np.random.choice([-1.0,1.0]) for _ in range(inputNumber-len(_weights))])
+                _weights.extend([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber-len(_weights))])
         else:
             _weights=None
         
@@ -179,15 +179,22 @@ class Layer:
         else:
             self.__dict__['_learnRate']=0.1
         
-        if bias!=None:
-            _bias=bias
-        else:
-            _bias=-0.8*np.random.ranf()-0.1
+        _bias=bias
         if _weights:
-            self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,bias=_bias,learnRate=self._learnRate) for _ in range(percepNumber)]
+            if _bias!=None:
+                print(_bias)
+                self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(percepNumber)]
+            else:
+                print('NO BIAS')
+                self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(percepNumber)]
         else:
-            self.__dict__['_perceptrons']=[Perceptron([np.random.ranf()*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,bias=_bias,learnRate=self._learnRate) for _ in range(percepNumber)]
-        
+            if _bias!=None:
+                print(_bias)
+                self.__dict__['_perceptrons']=[Perceptron([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(percepNumber)]
+            else:
+                print('NO BIAS')
+                self.__dict__['_perceptrons']=[Perceptron([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(percepNumber)]
+                
     """
     Funkcje dostępowe
     """
