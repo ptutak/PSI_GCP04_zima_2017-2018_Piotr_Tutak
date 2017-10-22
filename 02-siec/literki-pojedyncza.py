@@ -35,7 +35,7 @@ listPerc=[]
 RES_NUMBER=1
 while(len(listPerc)<RES_NUMBER):
     multilayer=Multilayer([35,15,1],
-             [ident,SignSigm()(1.0),ident],
+             [hardOne,SignSigm()(1.0),ident],
              [zero,SignSigm().derivative(1.0),one],
              [[1.0],None,[1.0 for x in range(15)]],
              [0.0,0.1,0.0],
