@@ -91,7 +91,8 @@ while(len(listPerc)<RES_NUMBER):
                 error=MSE(r,litery20Expected[litery20.index(inp)])
             else:
                 error=MAPE(r,litery20Expected[litery20.index(inp)])
-        multilayer.multiLearnRates(1.0/-np.log10(error))
+        if error<1.0:
+            multilayer.multiLearnRates(1.0/-np.log10(error))
         if error<0.00001:
             run=False    
         i+=1
