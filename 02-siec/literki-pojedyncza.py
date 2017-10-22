@@ -10,6 +10,7 @@ import random
 import time
 
 
+
 litery=dict()
 literyLow=dict()
 literyHigh=dict()
@@ -27,17 +28,18 @@ litery20=random.sample(list(literyLow.items()),10)
 litery20.extend(random.sample(list(literyHigh.items()),10))
 litery20Low=[x for x in litery20 if x[0].islower()]
 litery20High=[x for x in litery20 if x[0].isupper()]
-print(litery20)
-#print(literyLow)
-#print(literyHigh)
+print('użyte litery:')
+print(*list(x[0] for x in litery20),sep='\n')
+
 
 listPerc=[]
 RES_NUMBER=1
+HIDDEN_LAYER_PERCEP_NUMB=15
 while(len(listPerc)<RES_NUMBER):
-    multilayer=Multilayer([35,15,1],
+    multilayer=Multilayer([35,HIDDEN_LAYER_PERCEP_NUMB,1],
              [hardOne,SignSigm()(1.0),ident],
              [zero,SignSigm().derivative(1.0),one],
-             [[1.0],None,[1.0 for x in range(15)]],
+             [[1.0],None,[1.0 for x in range(HIDDEN_LAYER_PERCEP_NUMB)]],
              [0.0,0.1,0.0],
              [-0.5,None,0.0])
 
