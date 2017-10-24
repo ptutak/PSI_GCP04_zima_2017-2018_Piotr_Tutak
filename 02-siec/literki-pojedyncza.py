@@ -33,11 +33,11 @@ def MAPE(results,expected):
         sum+=abs((expected[i]-results[i])/expected[i])
     return 100*sum/len(results)
 
-
+"""
 STDOUT=sys.stdout
 f=open('results.txt','w');
 sys.stdout=f
-
+"""
 
 litery=dict()
 literyLow=dict()
@@ -54,25 +54,27 @@ with open('litery.txt','r') as f:
 
 litery20=sorted(random.sample(list(literyLow.items()),10),key=itemgetter(0))
 litery20.extend(sorted(random.sample(list(literyHigh.items()),10),key=itemgetter(0)))
-litery20Expected=[[1.0 if x==y else 0.0 for x in range(1,21)] for y in range(1,21)]
+litery20Expected=[[1.0] if x >9 else [0.0] for x in range(20)]
+litery20ExpectedTestList=[0.0 if x<=9 else 1.0 for x in range(20)]
+#litery20Expected=[[1.0 if x==y else 0.0 for x in range(1,21)] for y in range(1,21)]
 litery20Low=[x for x in litery20 if x[0].islower()]
 litery20High=[x for x in litery20 if x[0].isupper()]
 print('użyte litery:')
-print(*list(x[0] for x in litery20),sep='\n')
+print(*list(x[0] for x in litery20),sep=' ')
 
 
 listPerc=[]
-RES_NUMBER=2
-HIDDEN_LAYER_PERCEP_NUMB=20
+RES_NUMBER=10
+HIDDEN_LAYER_PERCEP_NUMB=15
 while(len(listPerc)<RES_NUMBER):
 
     multilayer=Multilayer(
-             [35,HIDDEN_LAYER_PERCEP_NUMB],
-             [hardOne,SignSigm()(1.0)],
-             [zero,SignSigm().derivative(1.0)],
-             [[1.0],None],
-             [0.0,0.3],
-             [-0.5,-0.01]
+             [35,HIDDEN_LAYER_PERCEP_NUMB,1],
+             [hardOne,SignSigm()(1.0),ident],
+             [zero,SignSigm().derivative(1.0),one],
+             [[1.0],None,[1.0 for x in range(HIDDEN_LAYER_PERCEP_NUMB)]],
+             [0.0,0.3,0.0],
+             [-0.5,-0.05,0.0]
              )
     i=0
     run=True
@@ -84,25 +86,21 @@ while(len(listPerc)<RES_NUMBER):
             samples.remove(inp)
             multilayer.learn(inp[1],litery20Expected[litery20.index(inp)])
         
-        dif=0.0
+        results=[]
         for inp in litery20:
-            r=multilayer.process(inp[1])
-            if len(listPerc)<2:
-                error=MSE(r,litery20Expected[litery20.index(inp)])
-            else:
-                error=MAPE(r,litery20Expected[litery20.index(inp)])
-        if error<1.0:
-            multilayer.multiLearnRates(1.0/-np.log10(error))
+            results.extend(multilayer.process(inp[1]))
+         
+        error=MSE(results,litery20ExpectedTestList)
         if error<0.00001:
             run=False    
         i+=1
-        print(i,time.clock()-start,error,sep=';')
-    listPerc.append(multilayer)
+        print("{0:8};{1: 8.5}".format(i,time.clock()-start),error,sep=';')
+    listPerc.append((multilayer,i,error,time.clock()-start))
+    print(repr(multilayer),"iter number: "+repr(i),"{0:8}".format(time.clock()-start))
 
-for m in listPerc:
-    print(m)
+"""
+example=listPerc[0][0]
 
-example=listPerc[0]
 for item in litery20:
     r=example.process(item[1])
     print("{0:6}\n{1!s}\n{2!s}".format(item[0],listWithPrec(r,5),listWithPrec(litery20Expected[litery20.index(item)],5)))   
@@ -110,3 +108,4 @@ for item in litery20:
 
 f.close()
 sys.stdout=STDOUT
+"""
