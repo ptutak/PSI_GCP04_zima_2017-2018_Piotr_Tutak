@@ -11,6 +11,7 @@ import random
 import time
 import numpy as np
 import sys
+import copy
 
 def listWithPrec(listA,prec):
     ret="["
@@ -56,9 +57,17 @@ litery20=sorted(random.sample(list(literyLow.items()),10),key=itemgetter(0))
 litery20.extend(sorted(random.sample(list(literyHigh.items()),10),key=itemgetter(0)))
 litery20Expected=[[1.0] if x >9 else [0.0] for x in range(20)]
 litery20ExpectedTestList=[0.0 if x<=9 else 1.0 for x in range(20)]
-#litery20Expected=[[1.0 if x==y else 0.0 for x in range(1,21)] for y in range(1,21)]
-litery20Low=[x for x in litery20 if x[0].islower()]
-litery20High=[x for x in litery20 if x[0].isupper()]
+
+litery20Stirred=copy.deepcopy(litery20)
+
+for x in litery20Stirred:
+    change=random.sample(set(range(35)),3)
+    for c in change:
+        if x[1][c]==0.0:
+            x[1][c]=1.0
+        else:
+            x[1][c]=0.0
+
 print('użyte litery:')
 print(*list(x[0] for x in litery20),sep=' ')
 
@@ -70,7 +79,7 @@ while(len(listPerc)<RES_NUMBER):
 
     multilayer=Multilayer(
              [35,HIDDEN_LAYER_PERCEP_NUMB,1],
-             [hardOne,SignSigm()(1.0),ident],
+             [hardOne,SignSigm()(1.0),hardOne],
              [zero,SignSigm().derivative(1.0),one],
              [[1.0],None,[1.0 for x in range(HIDDEN_LAYER_PERCEP_NUMB)]],
              [0.0,0.3,0.0],
@@ -79,6 +88,7 @@ while(len(listPerc)<RES_NUMBER):
     i=0
     run=True
     start=time.clock()
+    print('start learning:')
     while(run):
         samples=list(litery20)
         while(run and samples):
@@ -91,12 +101,30 @@ while(len(listPerc)<RES_NUMBER):
             results.extend(multilayer.process(inp[1]))
          
         error=MSE(results,litery20ExpectedTestList)
-        if error<0.00001:
+        if error<0.0001:
             run=False    
         i+=1
         print("{0:8};{1: 8.5}".format(i,time.clock()-start),error,sep=';')
     listPerc.append((multilayer,i,error,time.clock()-start))
-    print(repr(multilayer),"iter number: "+repr(i),"{0:8}".format(time.clock()-start))
+#    print(repr(multilayer),end='')
+    print("iter number:{0:8}".format(i),"; time taken[s]:{0:8}".format(time.clock()-start))
+    print('')
+
+
+print('\n\nTestowanie sieci:')
+for m in listPerc:
+    res=[]
+    print(repr(m[0]),end='')
+    print("iter number:{0:8}".format(m[1]),"; time taken[s]:{0:8}".format(m[3]))
+    print('errors:\n(letter, result, expected):')
+    for s in litery20Stirred:
+        res.append(m[0].process(s[1]))
+    res=[(x[0],*y,*z) for x,y,z in zip(litery20,res,litery20Expected) if z[0]!=y[0]]
+    print(*res,sep='\n')
+    print('number of errors:',len(res))
+    print('\n')
+    
+    
 
 """
 example=listPerc[0][0]
