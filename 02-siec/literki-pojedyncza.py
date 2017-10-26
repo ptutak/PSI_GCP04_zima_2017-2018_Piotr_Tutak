@@ -91,34 +91,32 @@ RES_NUMBER=4
 HIDDEN_LAYER_PERCEP_NUMB=15
 learnRate=0.5
 
+multilayerOrig=Multilayer(
+         [35,HIDDEN_LAYER_PERCEP_NUMB,1],
+         [hardOne,SignSigm()(1.0),hardOne],
+         [zero,SignSigm().derivative(1.0),one],
+         [[1.0],None,[1.0 for x in range(HIDDEN_LAYER_PERCEP_NUMB)]],
+         [0.0,0.1,0.0],
+         [-0.5,-0.05,0.0]
+         )
+
 #uczenie poszczegolnych warstw
 while(len(listPerc)<RES_NUMBER):
-    if len(listPerc)==2:
-        learnRate=0.1
-    if len(listPerc)%2==0:
-        multilayer=Multilayer(
-                 [35,HIDDEN_LAYER_PERCEP_NUMB,1],
-                 [hardOne,SignSigm()(1.0),hardOne],
-                 [zero,SignSigm().derivative(1.0),one],
-                 [[1.0],None,[1.0 for x in range(HIDDEN_LAYER_PERCEP_NUMB)]],
-                 [0.0,learnRate,0.0],
-                 [-0.5,-0.05,0.0]
-                 )
-    else:
-        multilayer=Multilayer(
-                 [35,HIDDEN_LAYER_PERCEP_NUMB,1],
-                 [hardOne,SignSigm()(1.0),ident],
-                 [zero,SignSigm().derivative(1.0),one],
-                 [[1.0],None,[1.0 for x in range(HIDDEN_LAYER_PERCEP_NUMB)]],
-                 [0.0,learnRate,0.0],
-                 [-0.5,-0.05,0.0]
-                 )
+    multilayer=copy.deepcopy(multilayerOrig)
+    print(multilayer)
+    if len(listPerc)==1:
+        multilayer[1]['learnRate']=0.5
+    elif len(listPerc)==2:
+        multilayer[2]['activFunc']=ident
+    elif len(listPerc)==3:
+        multilayer[2]['activFunc']=ident
+        multilayer[1]['learnRate']=0.5
         
     i=0
     run=True
     start=time.clock()
     print('start learning:')
-    print('iteration;  time  ;  error   ; learn rate: %f;'% (learnRate))
+    print('iteration;  time  ;  error   ; learn rate: %f;'% (multilayer[1]['learnRate']))
     while(run):
         samples=list(litery20)
         while(run and samples):

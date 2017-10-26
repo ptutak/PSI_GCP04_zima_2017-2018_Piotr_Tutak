@@ -127,6 +127,8 @@ class Perceptron:
     def __setitem__(self,index,value):
         if index=='learnRate':
             self.__dict__['_learnRate']=value
+        elif index=='activFunc':
+            self.__dict__['_activFunc']=value
     
     def __getitem__(self,index):
         if index=='error':
@@ -207,6 +209,10 @@ class Layer:
             self.__dict__['_learnRate']=value
             for x in self._perceptrons:
                 x['learnRate']=value
+        elif index=='activFunc':
+            self.__dict__['_activFunc']=value
+            for x in self._perceptrons:
+                x['activFunc']=value
     def __getattr__(self,attr):
         raise AttributeError('get: No such attribute: %r'%attr)
     
