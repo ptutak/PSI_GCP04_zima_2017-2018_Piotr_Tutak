@@ -18,10 +18,8 @@ Różne funkcje aktywacji używane w testowaniu perceptronu:
 def ident(x):
     return float(x)
 
-def positiveIdent(x):
-    if x<0:
-        return 0.0
-    return float(x)
+def rectifier(x):
+    return max(0,x)
 
 def one(x):
     return 1.0
@@ -81,6 +79,28 @@ class SignSigm:
         signSigmDeriv.__name__+='({0:.3f})'.format(alfa)
         return signSigmDeriv
 
+#funkcja wypisująca zawartosc listy z zadaną precyzją
+def listWithPrec(listA,prec):
+    ret="["
+    formatStr="{0: "+str(int(prec+3))+"."+str(int(prec))+"f}"
+    for x in listA:
+        ret+=formatStr.format(x)
+        ret+=","
+    ret=ret[:-1]+']'
+    return ret
+
+#funkcje liczace wartosci błędów
+def MSE(results,expected):
+    sum=0.0
+    for i in range(len(results)):
+        sum+=(results[i]-expected[i])**2
+    return sum/len(results)
+
+def MAPE(results,expected):
+    sum=0.0
+    for i in range(len(results)):
+        sum+=abs((expected[i]-results[i])/results[i])
+    return 100*sum/len(results)
 
 
 class Perceptron:
