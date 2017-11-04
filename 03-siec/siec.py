@@ -31,6 +31,8 @@ print(expected)
 
 INTERN_LAYERS=3
 LAYERS=[5 for x in range(INTERN_LAYERS)]
+
+
 ACTIV_FUNCS=[SignSigm()(1) for x in range(INTERN_LAYERS)]
 ACTIV_FUNC_DERIVS=[SignSigm().derivative(1) for x in range(INTERN_LAYERS)]
 LEARN_RATES=[0.1 for x in range(INTERN_LAYERS)]
