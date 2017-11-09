@@ -255,7 +255,8 @@ class Multilayer:
     """
     Wielowarstwa z możliwoscią zaprogramwania indywidualnie każdej wartstwy
     """
-    def __init__(self,layers,activFuncs=None,activFuncDerivs=None,weights=[], learnRates=[], biases=[]):
+    def __init__(self,layers,activFuncs=None,activFuncDerivs=None,weights=[], learnRates=[], biases=[], batchSize=1):
+        self._batchSize=batchSize
         if isinstance(layers[0],Layer):
             self._layers=layers
         elif isinstance(layers[0],int):

@@ -46,7 +46,7 @@ model.add(Dense(10,activation='sigmoid'))
 model.add(Dense(1,activation='linear'))
 
 
-adam = optimizers.Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+adam = optimizers.Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.000001)
 
 model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
 
@@ -57,3 +57,5 @@ scores=model.evaluate(inputTestData,expectedTestData)
 print(scores)
 
 print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+
+model.save('model_sieci.h5')
