@@ -46,7 +46,7 @@ model.add(Dense(10,activation='sigmoid'))
 model.add(Dense(1,activation='linear'))
 
 
-adam = optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+adam = optimizers.Adam(lr=0.01, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
 
 model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
 
