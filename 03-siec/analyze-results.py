@@ -14,7 +14,6 @@ pattern=re.compile(r"- .+step - loss: \d+\.\d+ - acc: \d+\.[\de\+]+")
 for file in os.listdir("."):
     if file.startswith("results") and file.endswith(".txt"):
         print(os.path.join(".", file))
-        
         with open(file,'r') as f:
             i=1
             outputFile="processed-"+file

@@ -38,45 +38,44 @@ lr=0.01
 decay=0.0
 layers=[5,10,15,1]
 
-
 STDOUT=sys.stdout
-f=open('results'+str(layers)+'-lr-'+str(lr)+'-decay-'+str(decay)+'.txt','w');
-sys.stdout=f
-
-
-np.random.seed(7)
-
-dataSet=np.loadtxt('training_data.csv',delimiter=',')
-inputData = dataSet[:,0:2]
-expected = dataSet[:,2]
-
-testDataSet=np.loadtxt('test_data.csv',delimiter=',')
-inputTestData = testDataSet[:,0:2]
-expectedTestData = testDataSet[:,2]
-
-model=Sequential()
-for i in range(len(layers)):
-    if i==0:
-        model.add(Dense(layers[i], input_dim=2,activation='sigmoid'))
-    elif i==len(layers)-1:
-        model.add(Dense(layers[i],activation='linear'))
-    else:
-        model.add(Dense(layers[i],activation='sigmoid'))
-
-
-adam = optimizers.Adam(lr=lr, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=decay)
-
-model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
-
-model.fit(inputData,expected,epochs=100000,batch_size=20)
-
-scores=model.evaluate(inputTestData,expectedTestData)
-
-print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
-
-print(model.summary())
-
-model.save('model_sieci-'+str(layers)+'-lr-'+str(lr)+'-decay-'+str(decay)+'.h5')
-
-sys.stdout=STDOUT
-f.close()
+try:
+    f=open('results'+str(layers)+'-lr-'+str(lr)+'-decay-'+str(decay)+'.txt','w');
+    sys.stdout=f
+    
+    np.random.seed(7)
+    
+    dataSet=np.loadtxt('training_data.csv',delimiter=',')
+    inputData = dataSet[:,0:2]
+    expected = dataSet[:,2]
+    
+    testDataSet=np.loadtxt('test_data.csv',delimiter=',')
+    inputTestData = testDataSet[:,0:2]
+    expectedTestData = testDataSet[:,2]
+    
+    model=Sequential()
+    for i in range(len(layers)):
+        if i==0:
+            model.add(Dense(layers[i], input_dim=2,activation='sigmoid'))
+        elif i==len(layers)-1:
+            model.add(Dense(layers[i],activation='linear'))
+        else:
+            model.add(Dense(layers[i],activation='sigmoid'))
+    
+    
+    adam = optimizers.Adam(lr=lr, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=decay)
+    
+    model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
+    
+    model.fit(inputData,expected,epochs=100000,batch_size=20)
+    
+    scores=model.evaluate(inputTestData,expectedTestData)
+    
+    print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+    
+    print(model.summary())
+    
+    model.save('model_sieci-'+str(layers)+'-lr-'+str(lr)+'-decay-'+str(decay)+'.h5')
+finally:
+    sys.stdout=STDOUT
+    f.close()
