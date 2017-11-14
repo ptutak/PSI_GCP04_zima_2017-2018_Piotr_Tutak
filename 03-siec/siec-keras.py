@@ -34,7 +34,7 @@ with open('test_data.csv','w') as f:
         print('{0},{1},{2}'.format(x,y,rastrigin(x,y)),file=f)
 
 
-lr=0.01
+lr=0.1
 decay=0.0
 layers=[5,10,15,1]
 
@@ -70,6 +70,8 @@ try:
     model.fit(inputData,expected,epochs=100000,batch_size=20)
     
     scores=model.evaluate(inputTestData,expectedTestData)
+    print("scores: ",scores)
+    print("metrics_names:",model.metrics_names)
     
     print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
     
