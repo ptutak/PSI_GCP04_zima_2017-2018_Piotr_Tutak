@@ -36,7 +36,7 @@ with open('test_data.csv','w') as f:
 
 lr=0.01
 decay=0.0
-layers=[30,1]
+layers=[5,10,15,1]
 
 
 STDOUT=sys.stdout
