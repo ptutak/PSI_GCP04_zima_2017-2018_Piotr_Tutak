@@ -5,7 +5,9 @@ Created on Sat Nov  4 14:57:07 2017
 @author: Piotrek
 """
 
-
+import os
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 from keras.models import Sequential
 from keras.layers import Dense
@@ -13,8 +15,6 @@ from keras import optimizers
 
 import numpy as np
 import sys
-
-
 
 def rastrigin(x,y):
     return 20+x**2-10*np.cos(2*np.pi*x)+y**2-10*np.cos(2*np.pi*y)
@@ -36,7 +36,7 @@ with open('test_data.csv','w') as f:
 
 lr=0.1
 decay=0.0
-layers=[5,10,15,1]
+layers=[20,1]
 
 STDOUT=sys.stdout
 try:
