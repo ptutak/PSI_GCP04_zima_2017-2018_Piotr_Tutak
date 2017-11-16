@@ -30,20 +30,31 @@ for file in os.listdir("."):
 colors=['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive']
 i=0
 legend=[]
-plt.figure(figsize=(10,20))
+plt.figure(figsize=(20,40))
 plt.figure(1)
 plt.subplot(211)
 for k,v in data001.items():
-    line,=plt.plot(list(range(len(v))),v,colors[i],linewidth=0.1,label=k)
-    legend.append(mp)
+    line,=plt.plot(list(range(len(v))),v,colors[i],linewidth=0.5,label=k)
+    legend.append(mpatches.Patch(color=colors[i],label=k))
     i+=1
-
-plt.legend(handles=lines)
+plt.legend(handles=legend)
 plt.axis([0,100000,0,120])
 plt.xlabel('epoch')
 plt.ylabel('MSE')
 plt.title('Zaleznosc bledu od epoki')
 
+legend=[]
+i=0
+plt.subplot(212)
+for k,v in data01.items():
+    line,=plt.plot(list(range(len(v))),v,colors[i],linewidth=0.5,label=k)
+    legend.append(mpatches.Patch(color=colors[i],label=k))
+    i+=1
+plt.legend(handles=legend)
+plt.axis([0,100000,0,120])
+plt.xlabel('epoch')
+plt.ylabel('MSE')
+plt.title('Zaleznosc bledu od epoki')
 
 
 plt.savefig("testPlot.png")
