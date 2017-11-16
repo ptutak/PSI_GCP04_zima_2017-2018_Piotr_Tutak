@@ -21,6 +21,6 @@ for file in os.listdir("."):
                 for line in f:
                     out=pattern.search(line)
                     if out:
-                        print("epoch: {0} loss: {1}".format(i,out.group(1)).replace('.',','),file=fOut)
+                        print("{0} {1}".format(i,out.group(1)).replace('.',','),file=fOut)
                         i+=1
             
