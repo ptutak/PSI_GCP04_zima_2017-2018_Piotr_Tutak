@@ -7,6 +7,7 @@ Created on Tue Nov 14 19:21:32 2017
 
 import os
 import re
+import matplotlip.pyplot as plt
 
 pattern=re.compile(r"- .+step - loss: (\d+\.\d+) - acc: \d+\.[\de\+]+")
 pattern_filename=re.compile(r"\[.+\]-lr-[\d\.]+")
@@ -23,4 +24,4 @@ for file in os.listdir("."):
                     if out:
                         print("{0}".format(out.group(1)).replace('.',','),file=fOut)
                         i+=1
-            
+
