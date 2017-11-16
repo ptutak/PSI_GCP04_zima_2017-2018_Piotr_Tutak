@@ -9,8 +9,7 @@ import os
 import re
 
 pattern=re.compile(r"- .+step - loss: (\d+\.\d+) - acc: \d+\.[\de\+]+")
-
-
+pattern_filename=re.compile(r"\[.+\]-lr-[\d\.]+")
 for file in os.listdir("."):
     if file.startswith("results") and file.endswith(".txt"):
         print(os.path.join(".", file))
@@ -18,9 +17,10 @@ for file in os.listdir("."):
             i=1
             outputFile="processed-"+file
             with open(outputFile,"w") as fOut:
+                print(pattern_filename.search(file).group(0),file=fOut)
                 for line in f:
                     out=pattern.search(line)
                     if out:
-                        print("{0} {1}".format(i,out.group(1)).replace('.',','),file=fOut)
+                        print("{0}".format(out.group(1)).replace('.',','),file=fOut)
                         i+=1
             
