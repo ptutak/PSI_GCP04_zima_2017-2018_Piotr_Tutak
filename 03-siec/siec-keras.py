@@ -16,10 +16,18 @@ from keras import optimizers
 import numpy as np
 import sys
 
+"""
+Rastrigin
+"""
+
 def rastrigin(x,y):
     return 20+x**2-10*np.cos(2*np.pi*x)+y**2-10*np.cos(2*np.pi*y)
 
 np.random.seed(7)
+
+"""
+Generowanie danych uczących i testujących
+"""
 
 with open('training_data.csv','w') as f:
     for i in range(1000):
@@ -38,6 +46,10 @@ lr=0.1
 decay=0.0
 layers=[30,1]
 
+
+"""
+Przekierowanie wyjscia
+"""
 STDOUT=sys.stdout
 try:
     f=open('results'+str(layers)+'-lr-'+str(lr)+'-decay-'+str(decay)+'.txt','w');
@@ -52,7 +64,10 @@ try:
     testDataSet=np.loadtxt('test_data.csv',delimiter=',')
     inputTestData = testDataSet[:,0:2]
     expectedTestData = testDataSet[:,2]
-    
+   
+    """
+    Dodawanie warstw do modelu
+    """
     model=Sequential()
     for i in range(len(layers)):
         if i==0:
@@ -62,11 +77,16 @@ try:
         else:
             model.add(Dense(layers[i],activation='sigmoid'))
     
-    
+    """
+    Optymalizator
+    """
     adam = optimizers.Adam(lr=lr, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=decay)
     
     model.compile(loss='mean_squared_error', optimizer=adam, metrics=['accuracy'])
     
+    """
+    Trenowanie modelu
+    """
     model.fit(inputData,expected,epochs=100000,batch_size=20)
     
     scores=model.evaluate(inputTestData,expectedTestData)
@@ -76,7 +96,9 @@ try:
     print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
     
     print(model.summary())
-    
+    """
+    zapis modelu
+    """
     model.save('model_sieci-'+str(layers)+'-lr-'+str(lr)+'-decay-'+str(decay)+'.h5')
 finally:
     sys.stdout=STDOUT
