@@ -5,9 +5,9 @@ Created on Wed Nov 22 20:01:25 2017
 @author: PiotrTutak
 """
 
-import perceptron
+import neuron
 
-class NeuronHebb(perceptron.Perceptron):
+class NeuronHebb(neuron.Neuron):
     def __init__(self, weights, activFunc, learnRate=0.1, bias=-0.5):
         self.__dict__['_weights']=np.array(weights)
         self.__dict__['_learnRate']=learnRate
@@ -26,13 +26,13 @@ class NeuronHebb(perceptron.Perceptron):
         w='['+','.join('{:8.5f}'.format(x) for x in self._weights)+']'
         return 'NeuronHebb(weights:{0},bias:{1:8.5f},learnRate:{2:.5f},activFunc:{3!s})'.format(w,self._bias,self._learnRate,self._activFunc.__name__)
 
-class LayerHebb(perceptron.Layer):
+class LayerHebb(neuron.Layer):
     """
     Klasa wartstwy używana w wielowarstwowej sieci neuronowej.
     """
-    def __init__(self,inputNumber,percepNumber,activFunc,weights=None,learnRate=None,bias=None):
+    def __init__(self,inputNumber,neuronNumber,activFunc,weights=None,learnRate=None,bias=None):
         self.__dict__['_inputNumber']=inputNumber
-        self.__dict__['_percepNumber']=percepNumber
+        self.__dict__['_neuronNumber']=neuronNumber
         self.__dict__['_activFunc']=activFunc
         
         if weights!=None:
@@ -51,17 +51,17 @@ class LayerHebb(perceptron.Layer):
         _bias=bias
         if _weights:
             if _bias!=None:
-                self.__dict__['_perceptrons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,bias=_bias) for _ in range(percepNumber)]
+                self.__dict__['_neurons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_perceptrons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(percepNumber)]
+                self.__dict__['_neurons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(neuronNumber)]
         else:
             if _bias!=None:
-                self.__dict__['_perceptrons']=[NeuronHebb([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,bias=_bias) for _ in range(percepNumber)]
+                self.__dict__['_neurons']=[NeuronHebb([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_perceptrons']=[NeuronHebb([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(percepNumber)]
+                self.__dict__['_neurons']=[NeuronHebb([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(neuronNumber)]
 
 
-class MultilayerHebb(perceptron.Multilayer):
+class MultilayerHebb(neuron.Multilayer):
     """
     Wielowarstwa z możliwoscią zaprogramwania indywidualnie każdej wartstwy
     """
@@ -72,8 +72,8 @@ class MultilayerHebb(perceptron.Multilayer):
         elif isinstance(layers[0],int):
             if not all([activFuncs]):
                 raise TypeError('Missing activation functions')
-            percepNumbers=layers
-            l=zip_longest(percepNumbers,activFuncs,weights,learnRates,biases,fillvalue=None)
+            neuronNumbers=layers
+            l=zip_longest(neuronNumbers,activFuncs,weights,learnRates,biases,fillvalue=None)
             prev=next(l)
             layerList=[LayerHebb(1,*prev)]
             for x in l:

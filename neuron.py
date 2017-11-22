@@ -12,7 +12,7 @@ import random
 import sys
 
 """
-Różne funkcje aktywacji używane w testowaniu perceptronu: 
+Różne funkcje aktywacji używane w testowaniu neuronu: 
 """
 
 def ident(x):
@@ -103,9 +103,9 @@ def MAPE(results,expected):
     return 100*sum/len(results)
 
 
-class Perceptron:
+class Neuron:
     """
-    Klasa Perceptron
+    Klasa Neuron
     """
     def __init__(self, weights, activFunc, activFuncDeriv, learnRate=0.1, bias=-0.5):
         self.__dict__['_weights']=np.array(weights)
@@ -175,16 +175,16 @@ class Perceptron:
     
     def __repr__(self):
         w='['+','.join('{:8.5f}'.format(x) for x in self._weights)+']'
-        return 'Perceptron(weights:{0},bias:{1:8.5f},learnRate:{2:.5f},activFunc:{3!s},activFuncDeriv:{4!s})'.format(w,self._bias,self._learnRate,self._activFunc.__name__,self._activFuncDeriv.__name__)
+        return 'Neuron(weights:{0},bias:{1:8.5f},learnRate:{2:.5f},activFunc:{3!s},activFuncDeriv:{4!s})'.format(w,self._bias,self._learnRate,self._activFunc.__name__,self._activFuncDeriv.__name__)
 
 
 class Layer:
     """
     Klasa wartstwy używana w wielowarstwowej sieci neuronowej.
     """
-    def __init__(self,inputNumber,percepNumber,activFunc,activFuncDeriv,weights=None,learnRate=None,bias=None):
+    def __init__(self,inputNumber,neuronNumber,activFunc,activFuncDeriv,weights=None,learnRate=None,bias=None):
         self.__dict__['_inputNumber']=inputNumber
-        self.__dict__['_percepNumber']=percepNumber
+        self.__dict__['_neuronNumber']=neuronNumber
         self.__dict__['_activFunc']=activFunc
         self.__dict__['_activFuncDeriv']=activFuncDeriv
         
@@ -204,34 +204,34 @@ class Layer:
         _bias=bias
         if _weights:
             if _bias!=None:
-                self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(percepNumber)]
+                self.__dict__['_neurons']=[Neuron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_perceptrons']=[Perceptron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(percepNumber)]
+                self.__dict__['_neurons']=[Neuron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(neuronNumber)]
         else:
             if _bias!=None:
-                self.__dict__['_perceptrons']=[Perceptron([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(percepNumber)]
+                self.__dict__['_neurons']=[Neuron([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_perceptrons']=[Perceptron([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(percepNumber)]
+                self.__dict__['_neurons']=[Neuron([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(neuronNumber)]
                 
     """
     Funkcje dostępowe
     """
     def __len__(self):
-        return len(self._perceptrons)
+        return len(self._neurons)
     def __getitem__(self,index):
         if index=='learnRate':
             return self._learnRate
-        return self._perceptrons[index]
+        return self._neurons[index]
     def __iter__(self):
-        return iter(self._perceptrons)
+        return iter(self._neurons)
     def __setitem__(self,index,value):
         if index=='learnRate':
             self.__dict__['_learnRate']=value
-            for x in self._perceptrons:
+            for x in self._neurons:
                 x['learnRate']=value
         elif index=='activFunc':
             self.__dict__['_activFunc']=value
-            for x in self._perceptrons:
+            for x in self._neurons:
                 x['activFunc']=value
     def __getattr__(self,attr):
         raise AttributeError('get: No such attribute: %r'%attr)
@@ -240,8 +240,8 @@ class Layer:
         raise AttributeError('set: No such attribute: %r'%attr)
         
     def __repr__(self):
-        result='Layer(inputNumber:{0}, perceptronNumber:{1}, activFunc:{2!s}, activFuncDeriv:{3!s}, learnRate:{4:.5f})'\
-              .format(self._inputNumber,self._percepNumber,self._activFunc.__name__,self._activFuncDeriv.__name__,self._learnRate)
+        result='Layer(inputNumber:{0}, neuronNumber:{1}, activFunc:{2!s}, activFuncDeriv:{3!s}, learnRate:{4:.5f})'\
+              .format(self._inputNumber,self._neuronNumber,self._activFunc.__name__,self._activFuncDeriv.__name__,self._learnRate)
         return result
     def __str__(self):
         result=repr(self)+'\n'
@@ -262,8 +262,8 @@ class Multilayer:
         elif isinstance(layers[0],int):
             if not all([activFuncs,activFuncDerivs]):
                 raise TypeError('Missing activation functions or derivatives')
-            percepNumbers=layers
-            l=zip_longest(percepNumbers,activFuncs,activFuncDerivs,weights,learnRates,biases,fillvalue=None)
+            neuronNumbers=layers
+            l=zip_longest(neuronNumbers,activFuncs,activFuncDerivs,weights,learnRates,biases,fillvalue=None)
             prev=next(l)
             layerList=[Layer(1,*prev)]
             for x in l:
@@ -339,12 +339,12 @@ class Multilayer:
 
 if __name__=='__main__':
     """
-    Kod programu przeprowadzającego uczenie i testowanie perceptronu
+    Kod programu przeprowadzającego uczenie i testowanie neuronu
     Wyjscie jest przekierowywane do pliku results.txt
     """
-    STDOUT=sys.stdout
-    f=open('results.txt','w');
-    sys.stdout=f
+#    STDOUT=sys.stdout
+#    f=open('results.txt','w');
+#    sys.stdout=f
     
     SigmFactory=SignSigm()
     print('Funkcja AND:')
@@ -361,7 +361,7 @@ if __name__=='__main__':
     RES_NUMBER=100
     while(len(listPerc)<RES_NUMBER):
         w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
-        p=Perceptron(w,hardOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)
+        p=Neuron(w,hardOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)
         i=0
         run=True
         print(p)
@@ -391,5 +391,5 @@ if __name__=='__main__':
         listPerc.append((w,p[:],p['learnRate'],i))
     for x in sorted(listPerc,key=itemgetter(2)):
         print(*x,sep=';')
-    sys.stdout=STDOUT
-    f.close()
+#    sys.stdout=STDOUT
+#    f.close()
