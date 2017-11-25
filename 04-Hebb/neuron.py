@@ -206,12 +206,12 @@ class Layer:
             if _bias!=None:
                 self.__dict__['_neurons']=[Neuron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_neurons']=[Neuron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[Neuron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.08*np.random.ranf()-0.01) for _ in range(neuronNumber)]
         else:
             if _bias!=None:
-                self.__dict__['_neurons']=[Neuron([(0.8*np.random.ranf()+0.1)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[Neuron([(0.08*np.random.ranf()+0.01)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_neurons']=[Neuron([(0.8*np.random.ranf()+0.1)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.8*np.random.ranf()-0.1) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[Neuron([(0.08*np.random.ranf()+0.01)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.08*np.random.ranf()-0.01) for _ in range(neuronNumber)]
                 
     """
     Funkcje dostępowe
