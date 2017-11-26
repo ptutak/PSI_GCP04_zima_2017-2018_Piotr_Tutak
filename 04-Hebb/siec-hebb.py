@@ -42,8 +42,8 @@ multilayer=MultilayerHebb(
         layers=[64,64,4],
         activFuncs=[ident,SignSigm()(1.0),Sigm()(1.0)],
         weights=[[1.0],None,None],
-        learnRates=[0.0,0.04,0.04],
-        forgetRates=[0.0,0.1,0.1],
+        learnRates=[0.0,0.05,0.05],
+        forgetRates=[0.0,0.2,0.2],
         biases=[0.0,None,None]
         )
 
