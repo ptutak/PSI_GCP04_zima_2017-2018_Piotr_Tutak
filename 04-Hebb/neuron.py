@@ -116,7 +116,7 @@ class Neuron:
         self.__dict__['_error']=None
         self.__dict__['_inputValues']=None
         self.__dict__['_val']=None
-    
+        self.__dict__['_output']=None
     def process(self,inputValues):
         """
         Funkcja przetwarzająca dane wejsciowe na dane wyjsciowe
@@ -125,7 +125,8 @@ class Neuron:
             raise TypeError('Wrong values length')
         self.__dict__['_inputValues']=np.array(inputValues)
         self.__dict__['_val']=np.dot(self._weights,self._inputValues)+self._bias
-        return self._activFunc(self._val)
+        self.__dict__['_output']=self._activFunc(self._val)
+        return self._output
     
     def propagateError(self,weights,errors):
         """
@@ -276,9 +277,11 @@ class Multilayer:
         """
         inputValues=list(inputValues)
         values=[]
+    
         for p in self._layers[0]:
             values.append(p.process(inputValues[:len(p)]))
             inputValues=inputValues[len(p):]    
+        
         for layer in self._layers[1:]:
             inputValues=values
             values=[]

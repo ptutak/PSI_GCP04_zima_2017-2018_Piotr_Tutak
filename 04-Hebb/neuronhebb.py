@@ -18,10 +18,11 @@ class NeuronHebb(neuron.Neuron):
         self.__dict__['_error']=None
         self.__dict__['_inputValues']=None
         self.__dict__['_val']=None
+        self.__dict__['_output']=None
         self.__dict__['_forgetRate']=forgetRate
     def learnHebb(self):
         if (self._learnRate):
-            output=self._activFunc(self._val)
+            output=self._output
             for i in range(len(self._weights)):
                 self._weights[i]*=1.0-self._forgetRate
                 self._weights[i]+=self._learnRate*output*self._inputValues[i]
@@ -61,12 +62,12 @@ class LayerHebb(neuron.Layer):
             if _bias!=None:
                 self.__dict__['_neurons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_neurons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=-0.08*np.random.ranf()-0.01) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=np.random.ranf()*np.random.ranf()*2.0-1.0) for _ in range(neuronNumber)]
         else:
             if _bias!=None:
                 self.__dict__['_neurons']=[NeuronHebb([(np.random.ranf()*np.random.ranf())*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_neurons']=[NeuronHebb([(np.random.ranf()*np.random.ranf())*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=-0.08*np.random.ranf()-0.01) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[NeuronHebb([(np.random.ranf()*np.random.ranf())*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=np.random.ranf()*np.random.ranf()*2.0-1.0) for _ in range(neuronNumber)]
     def __repr__(self):
         result='Layer(inputNumber:{0}, neuronNumber:{1}, activFunc:{2!s},learnRate:{3:.5f},forgetRate:{3:.5f})'\
               .format(self._inputNumber,self._neuronNumber,self._activFunc.__name__,self._learnRate,self._forgetRate)
@@ -91,9 +92,9 @@ class MultilayerHebb(neuron.Multilayer):
                 layerList.append(LayerHebb(prev[0],*x))
                 prev=x
             self._layers=layerList
-    def learn(self,inputValues):
+    def learnHebb(self,inputValues):
         results=self.process(inputValues)
-        for layer in self._layers:
+        for layer in self._layers[1:]:
             for p in layer:
                 p.learnHebb()
         return results        
