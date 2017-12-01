@@ -1,5 +1,5 @@
 #my own
-results*.txt
+/03-siec/results*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
