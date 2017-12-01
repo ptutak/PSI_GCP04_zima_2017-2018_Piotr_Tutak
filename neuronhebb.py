@@ -45,7 +45,7 @@ class LayerHebb(neuron.Layer):
         if weights!=None:
             _weights=list(weights)
             if inputNumber>len(_weights):
-                _weights.extend([(0.08*np.random.ranf()+0.01)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber-len(_weights))])
+                _weights.extend([np.random.uniform(-1.0,1.0) for _ in range(inputNumber-len(_weights))])
         else:
             _weights=None
         
@@ -63,12 +63,12 @@ class LayerHebb(neuron.Layer):
             if _bias!=None:
                 self.__dict__['_neurons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_neurons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=-0.08*np.random.ranf()-0.01) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[NeuronHebb(_weights[:inputNumber],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=np.random.uniform(-1.0,1.0)) for _ in range(neuronNumber)]
         else:
             if _bias!=None:
-                self.__dict__['_neurons']=[NeuronHebb([(0.08*np.random.ranf()+0.01)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=_bias) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[NeuronHebb([np.random.uniform(-1.0,1.0) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_neurons']=[NeuronHebb([(0.08*np.random.ranf()+0.01)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=-0.08*np.random.ranf()-0.01) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[NeuronHebb([np.random.uniform(-1.0,1.0) for _ in range(inputNumber)],activFunc,learnRate=self._learnRate,forgetRate=self._forgetRate,bias=np.random.uniform(-1.0,1.0)) for _ in range(neuronNumber)]
     def __repr__(self):
         result='Layer(inputNumber:{0}, neuronNumber:{1}, activFunc:{2!s},learnRate:{3:.5f},forgetRate:{3:.5f})'\
               .format(self._inputNumber,self._neuronNumber,self._activFunc.__name__,self._learnRate,self._forgetRate)

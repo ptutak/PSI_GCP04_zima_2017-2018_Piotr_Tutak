@@ -191,7 +191,7 @@ class Layer:
         if weights!=None:
             _weights=list(weights)
             if inputNumber>len(_weights):
-                _weights.extend([0.8*np.random.ranf()+0.1*np.random.choice([-1.0,1.0]) for _ in range(inputNumber-len(_weights))])
+                _weights.extend([np.random.uniform(-1.0,1.0) for _ in range(inputNumber-len(_weights))])
         else:
             _weights=None
         
@@ -206,12 +206,12 @@ class Layer:
             if _bias!=None:
                 self.__dict__['_neurons']=[Neuron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_neurons']=[Neuron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.08*np.random.ranf()-0.01) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[Neuron(_weights[:inputNumber],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=np.random.uniform(-1.0,1.0)) for _ in range(neuronNumber)]
         else:
             if _bias!=None:
-                self.__dict__['_neurons']=[Neuron([(0.08*np.random.ranf()+0.01)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[Neuron([np.random.uniform(-1.0,1.0) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=_bias) for _ in range(neuronNumber)]
             else:
-                self.__dict__['_neurons']=[Neuron([(0.08*np.random.ranf()+0.01)*np.random.choice([-1.0,1.0]) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=-0.08*np.random.ranf()-0.01) for _ in range(neuronNumber)]
+                self.__dict__['_neurons']=[Neuron([np.random.uniform(-1.0,1.0) for _ in range(inputNumber)],activFunc,activFuncDeriv,learnRate=self._learnRate,bias=np.random.uniform(-1.0,1.0)) for _ in range(neuronNumber)]
                 
     """
     Funkcje dostępowe
@@ -345,7 +345,7 @@ if __name__=='__main__':
 #    STDOUT=sys.stdout
 #    f=open('results.txt','w');
 #    sys.stdout=f
-    
+    np.random.seed(7)
     SigmFactory=SignSigm()
     print('Funkcja AND:')
     inputData=(
@@ -360,7 +360,7 @@ if __name__=='__main__':
     listPerc=[]
     RES_NUMBER=100
     while(len(listPerc)<RES_NUMBER):
-        w=[np.random.ranf()*np.random.choice([-1,1]) for _ in range(2)]
+        w=[np.random.uniform(-1.0,1.0) for _ in range(2)]
         p=Neuron(w,hardOne,one,learnRate=np.random.ranf()*np.random.ranf()*np.random.ranf(),bias=np.random.ranf()*-1.0)
         i=0
         run=True
