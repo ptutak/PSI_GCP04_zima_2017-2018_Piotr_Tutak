@@ -93,7 +93,7 @@ class MultilayerHebb(neuron.Multilayer):
                 layerList.append(LayerHebb(prev[0],*x))
                 prev=x
             self._layers=layerList
-    def learn(self,inputValues):
+    def learnHebb(self,inputValues):
         results=self.process(inputValues)
         for layer in self._layers:
             for p in layer:
