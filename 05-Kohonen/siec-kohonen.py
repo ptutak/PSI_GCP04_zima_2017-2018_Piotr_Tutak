@@ -9,6 +9,14 @@ import numpy as np
 import scipy.linalg as lg
 
 
+def simpleLearnF(l):
+    t=-1
+    def f(x):
+        nonlocal t
+        t+=1
+        return x* np.exp(-t/l)
+    return f
+
 def distanceEuklides(input1,input2):
     s=0.0
     for i in range(len(input1)):
@@ -30,7 +38,7 @@ def radiusGauss(l,distanceF):
     return f
 
 class LayerKohonen:
-    def __init__(self, size, inputNumber, distanceFunc, radiusFunc, learnRate=0.1):
+    def __init__(self, size, inputNumber, distanceFunc, radiusFunc, learnRate=0.1, learnFunc=None):
         m,n=size
         self.size=size
         self.m=m
@@ -46,6 +54,7 @@ class LayerKohonen:
         self.radiusFunc=radiusFunc
         self.inputNumber=inputNumber
         self.learnRate=learnRate
+        self.learnFunc=learnFunc
 
     def learnKohonen(self,inputValues):
         minDist=0
@@ -72,4 +81,5 @@ class LayerKohonen:
                 neuron['w']=list(lg.norm(neuron['w']))
                 j+=1
             i+=1
-    
+        if self.learnFunc:
+            self.learnRate=self.learnFunc(self.learnRate)
