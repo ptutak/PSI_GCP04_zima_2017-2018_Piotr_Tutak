@@ -9,30 +9,29 @@ from layerkohonen import *
 from copy import deepcopy
 
 data=[]
-expected=[]
 with open('data.txt') as f:
     for line in f:
         l=line.strip().split()
-        expected.append(l[-1])
+        expected=l[-1]
         l=[float(x) for x in l[:4]]
-        data.append(np.array(l))
+        data.append((np.array(l),expected))
         
 print(*data,sep='\n')
-print(expected)
-layer=LayerKohonen((15,15),4,distanceEuklides,radiusSimple(0.0,distanceEuklides))
+#np.random.seed(3)
+layer=LayerKohonen((15,15),4,distanceEuklides,radiusSimple(0.0,distanceEuklides),0.1)#,simpleLearnCorrection(1.0,225))
 
 while(True):
     samples=deepcopy(data)
     np.random.shuffle(samples)
     while(samples):
         d=samples.pop(0)
-        layer.learnKohonen(d)
+        layer.learnKohonen(d[0])
     results=dict()
     for x in data:
-        res=tuple(sorted(layer.processKohonen(x).items()))[1:3]
+        res=tuple(sorted(layer.processKohonen(x[0]).items()))[1:3]
        # print(res)
         if res in results:
             results[res]+=1
         else:
             results[res]=0
-    print(sorted(results.items()))
+    print(sorted(results.items()),layer.learnRate)
