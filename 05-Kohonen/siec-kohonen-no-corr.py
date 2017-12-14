@@ -20,17 +20,17 @@ with open('data.txt') as f:
         l=[float(x) for x in l[:4]]
         data.append((np.array(l),expected))
         
-LR_CORR=100
+#LR_CORR=60
 SIZE=[x for x in range(5,21,3)]
 LEARN_RATE=[0.5,0.1, 0.01, 0.001]
 STDOUT=sys.stdout
-sys.stdout=open('results.txt','w')
+sys.stdout=open('results-no-corr.txt','w')
 try:
     for s in SIZE:
         layerOrig=LayerKohonen((s,s),4,distanceEuklides,radiusSimple(0.0,distanceEuklides),None,None)
         for l in LEARN_RATE:
             layer=deepcopy(layerOrig)
-            layer.learnFunc=simpleLearnCorrection(LR_CORR*149)
+            #layer.learnFunc=simpleLearnCorrection(LR_CORR*s*s)
             layer.learnRate=l
             layer.actualLearnRate=l
             #np.random.seed(12)
@@ -49,8 +49,7 @@ try:
                     results[x[1]][res]+=1
                 else:
                     results[x[1]][res]=1
-            print(i,s,l,layer.actualLearnRate,layer.learnFunc.__name__,*sorted(results.items()))
+            print(i,s,layer.actualLearnRate,*sorted(results.items()))
 finally:
     sys.stdout.close()
     sys.stdout=STDOUT
-    pass

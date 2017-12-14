@@ -15,6 +15,7 @@ def simpleLearnCorrection(l):
         nonlocal t
         t+=1
         return np.exp(-t/l)
+    f.__name__='sLR:{0}'.format(l)
     return f
 
 def distanceEuklides(input1,input2):
@@ -50,8 +51,7 @@ class LayerKohonen:
                 neurons[i].append(dict())
                 d=np.array([np.random.uniform(-1.0,1.0) for x in range(inputNumber)])
                 neurons[i][j]['w']=d/lg.norm(d)
-#                print(neurons[i][j]['w'])
-#                print(lg.norm(neurons[i][j]['w']))
+                neurons[i][j]['uid']=i*n+j
         self.neurons=neurons
         self.distanceFunc=distanceFunc
         self.radiusFunc=radiusFunc
@@ -68,7 +68,6 @@ class LayerKohonen:
             j=0
             for neuron in row:
                 res=self.distanceFunc(neuron['w'],inputValues)
- #               print(res)
                 neuron['d']=res
                 if res<minDist:
                     minDist=res
@@ -76,10 +75,10 @@ class LayerKohonen:
                     minNeuron['j']=j
                     minNeuron['w']=neuron['w']
                     minNeuron['d']=neuron['d']
+                    minNeuron['uid']=neuron['uid']
                 j+=1
             i+=1
             
-#        print(minNeuron)
         return minNeuron
     
     def learnKohonen(self,inputValues):
