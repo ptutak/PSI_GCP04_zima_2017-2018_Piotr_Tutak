@@ -18,7 +18,7 @@ with open('data.txt') as f:
         
 print(*data,sep='\n')
 #np.random.seed(3)
-layer=LayerKohonen((10,10),4,distanceEuklides,radiusSimple(0.0,distanceEuklides),0.1,simpleLearnCorrection(10*255.0))
+layer=LayerKohonen((10,10),4,distanceEuklides,radiusSimple(0.0,distanceEuklides),0.1,simpleLearnCorrection(100000.0))
 
 while(True):
     samples=deepcopy(data)
