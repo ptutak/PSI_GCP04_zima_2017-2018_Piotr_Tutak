@@ -18,7 +18,7 @@ with open('data.txt') as f:
         
 print(*data,sep='\n')
 #np.random.seed(3)
-layer=LayerKohonen((15,15),4,distanceEuklides,radiusSimple(0.0,distanceEuklides),0.1)#,simpleLearnCorrection(1.0,225))
+layer=LayerKohonen((10,10),4,distanceEuklides,radiusSimple(0.0,distanceEuklides),0.1,simpleLearnCorrection(10*255.0))
 
 while(True):
     samples=deepcopy(data)
@@ -34,4 +34,4 @@ while(True):
             results[res]+=1
         else:
             results[res]=0
-    print(sorted(results.items()),layer.learnRate)
+    print(sorted(results.items()),layer.actualLearnRate)
