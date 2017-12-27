@@ -52,6 +52,7 @@ class LayerKohonen:
                 d=np.array([np.random.uniform(-1.0,1.0) for x in range(inputNumber)])
                 neurons[i][j]['w']=d/lg.norm(d)
                 neurons[i][j]['uid']=i*n+j
+                neurons[i][j]['coords']=(i,j)
         self.neurons=neurons
         self.distanceFunc=distanceFunc
         self.radiusFunc=radiusFunc
@@ -59,6 +60,12 @@ class LayerKohonen:
         self.learnRate=learnRate
         self.actualLearnRate=learnRate
         self.learnFunc=learnFunc
+        
+    def __len__(self):
+        return self.m*self.n
+    
+    def __getitem__(self,index):
+        return self.neurons[index//self.m][index%self.m]
 
     def processKohonen(self, inputValues):
         minDist=self.distanceFunc([0 for x in range(self.inputNumber)],inputValues)
@@ -73,6 +80,7 @@ class LayerKohonen:
                     minDist=res
                     minNeuron['i']=i
                     minNeuron['j']=j
+                    minNeuron['coords']=neuron['coords']
                     minNeuron['w']=neuron['w']
                     minNeuron['d']=neuron['d']
                     minNeuron['uid']=neuron['uid']
