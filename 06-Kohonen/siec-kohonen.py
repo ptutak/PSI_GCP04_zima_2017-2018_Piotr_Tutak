@@ -19,8 +19,7 @@ with open('data.txt') as f:
         letter=[float(x) for x in l[-1]]
         data.append((np.array(letter),expected))
         
-
-LR_CORR=10
+EPOCHS=40
 SIZE=[5,10,15]
 LEARN_RATE=[0.5,0.1, 0.01]
 RADIUS = [1.0,2.0,3.0,4.0]
@@ -32,11 +31,11 @@ try:
         for l in LEARN_RATE:
             for r in RADIUS:
                 layer=deepcopy(layerOrig)
-                layer.learnFunc=simpleLearnCorrection(LR_CORR*24)
+                layer.learnFunc=simpleLearnCorrection(EPOCHS*24)
                 layer.learnRate=l
                 layer.actualLearnRate=l
                 layer.radiusFunc=radiusGauss(r,distanceEuklides)
-                for i in range(10):
+                for i in range(EPOCHS):
                     np.random.seed(12)
                     samples=deepcopy(data)
                     np.random.shuffle(samples)
