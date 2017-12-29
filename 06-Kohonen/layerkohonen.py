@@ -7,8 +7,9 @@ Created on Mon Dec 11 19:07:39 2017
 
 import numpy as np
 import scipy.linalg as lg
-
-
+"""
+Funkcja korekcji współczynnika uczenia
+"""
 def simpleLearnCorrection(l):
     t=-1
     def f():
@@ -17,13 +18,17 @@ def simpleLearnCorrection(l):
         return np.exp(-t/l)
     f.__name__='sLR:{0}'.format(l)
     return f
-
+"""
+Funkcja wyliczania dystansu
+"""
 def distanceEuklides(input1,input2):
     s=0.0
     for i in range(len(input1)):
         s+=(input1[i]-input2[i])**2
     return np.sqrt(s)
-
+"""
+Funkcja korekcji wag na podstawie dystansu, funkcja prosta
+"""
 def radiusSimple(l, distanceF):
     def f(input1, input2):
         d=distanceF(input1,input2)
@@ -31,14 +36,21 @@ def radiusSimple(l, distanceF):
             return 1.0
         return 0.0
     return f
-
+"""
+Funkcja korekcji wag na podstawie dystansu, funkcja gaussa
+"""
 def radiusGauss(l,distanceF):
     def f(input1,input2):
         d=distanceF(input1,input2)
         return np.exp(-(d**2)/(l**2))
     return f
-
+"""
+Warstwa Kohonena
+"""
 class LayerKohonen:
+    """
+    Konstruktor
+    """
     def __init__(self, size, inputNumber, distanceFunc, radiusFunc, learnRate=0.1, learnFunc=None):
         m,n=size
         self.size=size
@@ -66,7 +78,9 @@ class LayerKohonen:
     
     def __getitem__(self,index):
         return self.neurons[index//self.m][index%self.m]
-
+    """
+    Metoda zwracająca wynik klasyfikacji
+    """
     def processKohonen(self, inputValues):
         minDist=self.distanceFunc([0 for x in range(self.inputNumber)],inputValues)
         minNeuron=dict()
