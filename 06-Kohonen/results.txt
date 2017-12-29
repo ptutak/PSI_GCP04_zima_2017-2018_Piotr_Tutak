@@ -1,4 +1,3 @@
-size: 5, radius: 1.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
 L   .   D   O   J   
 E   .   B   C   .   
@@ -7,15 +6,14 @@ H   .   A   Q   .
 N   M   K   .   IT  
 
 TEST DATA:
-L   .   .   DO  J   
-.   E   B   C   .   
-F   PR  .   G   S   
-H   .   A   Q   I   
-N   M   K   .   T   
+L   .   D   .   J   
+.   B   .   .   .   
+EF  PR  A   CG  S   
+H   .   .   OQ  .   
+N   M   K   .   IT  
 
-Accuracy: 85.0 %
+size:5, radius:1.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:75.0
 
-size: 5, radius: 2.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
 HMN    .     A     Q    DJO   
  K     .     .     .     .    
@@ -24,15 +22,14 @@ HMN    .     A     Q    DJO
 EFPR   .     .     .     IT   
 
 TEST DATA:
-HMN   .   AQ    .   DJ   
- K    .    .    .    C   
- .    L    .    .   GOS  
- .    E    .    .    .   
-FPR   .    B    .   IT   
+HMN   .    Q    A    O   
+ K    .    .    D    .   
+ .    R    .    .   GJ   
+ F    L    B    .   CS   
+ E    P    .    .   IT   
 
-Accuracy: 65.0 %
+size:5, radius:2.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:50.0
 
-size: 5, radius: 3.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
  AQ    .    DJO    C    GIST  
  .     .     .     .     B    
@@ -41,15 +38,14 @@ DATA:
 HKMN   .     L     .    EFP   
 
 TEST DATA:
- .     .    CDJ    O    GIS   
- AQ    .     R     .     B    
+AOQ    D     .     J    CGIS  
  .     .     .     .     .    
- .     .     .     E     .    
-HKMN   .     .     L    FPT   
+ .     R     .     P     B    
+ M     H     .     .     .    
+ KN    .     F     L     ET   
 
-Accuracy: 60.0 %
+size:5, radius:3.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:40.0
 
-size: 5, radius: 1.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 .   H   N   M   K   
 R   .   .   .   .   
@@ -58,15 +54,14 @@ B   .   DO  C   .
 S   G   J   .   IT  
 
 TEST DATA:
-R   H   N   M   K   
-.   .   .   .   .   
-FP  A   Q   L   .   
-BE  .   DO  C   .   
-S   G   J   .   IT  
+ H    .    N    M    K   
+ R    .    .    .    .   
+EFP   A   OQ    .    L   
+ B    .    D    .    .   
+CS    G    J    .   IT   
 
-Accuracy: 90.0 %
+size:5, radius:1.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:75.0
 
-size: 5, radius: 2.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 KMN   .   AQ    .   IT   
  H    .    .    .    .   
@@ -75,15 +70,14 @@ KMN   .   AQ    .   IT
 FP    E    L    .   DJO  
 
 TEST DATA:
-KMN   .   AQ    .   IT   
- H    .    .    G    .   
- .    .    .    .    S   
- R    E    B    .    C   
-FP    .    L    .   DJO  
+KMN   .   AOQ   .   IT   
+ .    .    .    G    .   
+HR    .    .    .   CS   
+FP    B    .    .    .   
+ E    .    L    D    J   
 
-Accuracy: 90.0 %
+size:5, radius:2.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:50.0
 
-size: 5, radius: 3.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 HKMN   .     .     A    DJOQ  
  .     .     .     .     .    
@@ -92,15 +86,14 @@ HKMN   .     .     A    DJOQ
 FPR    E     B     .    IST   
 
 TEST DATA:
-HKMN   .     A     Q     DJ   
- .     .     .     .     CO   
- .     L     .     .     G    
- .     E     .     .     .    
-FPR    .     .     B    IST   
+KMN    .     .    ADQ    O    
+ H     .     .     .     .    
+ .     .     .     .     GJ   
+ FR    L     B     .     .    
+ EP    .     .     .    CIST  
 
-Accuracy: 70.0 %
+size:5, radius:3.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:50.0
 
-size: 5, radius: 1.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
  .   MN    J    .    .   
  .    H    A   DO    .   
@@ -109,15 +102,14 @@ EFL  PR   BGS  CQ    .
  .    .   IT    .    .   
 
 TEST DATA:
- .   MN    J    .    .   
- .    H    A   DO    .   
- L   FR    B   CGQ   .   
- K   EP    .    S    .   
- .    .   IT    .    .   
+.   MN  DJ  .   .   
+F   H   AG  OQ  .   
+EL  BP  .   .   .   
+K   R   CS  .   .   
+.   .   IT  .   .   
 
-Accuracy: 75.0 %
+size:5, radius:1.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:60.0
 
-size: 5, radius: 2.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
 HMN   .    A    .   JQ   
  .    .    .    D    O   
@@ -126,15 +118,14 @@ PR    .    B    .   CG
 KL    E    .    .   IT   
 
 TEST DATA:
-HMN   .    A    Q    J   
- .    .    .   CD    O   
-FR    .    .    .    G   
- P    .    B    .    S   
- K    L    E    .   IT   
+MN  .   AD  Q   JO  
+H   .   .   .   G   
+R   P   .   .   .   
+F   .   B   CS  .   
+K   EL  .   .   IT  
 
-Accuracy: 60.0 %
+size:5, radius:2.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:55.0
 
-size: 5, radius: 3.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
 HKMN   .     .     A    DJOQ  
  .     .     .     .     .    
@@ -143,15 +134,14 @@ HKMN   .     .     A    DJOQ
 EFPR   .     B     .    IST   
 
 TEST DATA:
-HKMN   .     A     Q     DJ   
- .     .     .     .     CO   
- .     L     .     .     G    
- .     E     .     .     .    
-FPR    .     .     B    IST   
+KMN    .     D     Q     AO   
+ H     .     .     .     GJ   
+ .     .     .     .     .    
+FLR    .     B     .     .    
+ E     P     .     .    CIST  
 
-Accuracy: 65.0 %
+size:5, radius:3.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:40.0
 
-size: 10, radius: 1.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
 A  .  M  .  N  .  .  K  .  .  
 .  .  .  .  .  .  .  .  .  .  
@@ -165,20 +155,19 @@ G  .  B  .  .  I  .  .  .  .
 C  .  .  S  .  .  .  .  .  T  
 
 TEST DATA:
-A  .  .  M  .  N  K  .  .  .  
-.  Q  .  .  .  .  .  .  .  .  
-.  .  .  H  .  .  .  .  .  .  
-.  O  .  .  R  .  L  .  .  .  
-D  .  .  .  .  .  .  F  .  .  
-.  .  J  .  .  .  P  .  .  .  
-.  .  .  E  I  .  .  .  .  .  
-G  .  .  B  .  .  .  .  .  .  
-.  C  .  .  .  .  .  .  T  .  
-.  .  S  .  .  .  .  .  .  .  
+A  .  .  .  .  N  K  .  .  .  
+.  Q  M  .  .  .  .  .  .  .  
+O  .  .  .  .  .  .  .  .  .  
+.  .  .  H  .  .  .  L  .  .  
+D  .  .  .  .  .  .  .  F  E  
+.  J  .  R  .  P  .  .  .  .  
+G  .  .  .  I  .  .  .  .  .  
+.  B  .  .  .  .  .  .  .  .  
+C  .  .  S  .  .  .  .  T  .  
+.  .  .  .  .  .  .  .  .  .  
 
-Accuracy: 20.0 %
+size:10, radius:1.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:15.0
 
-size: 10, radius: 2.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
 A  .  .  M  N  .  .  .  .  K  
 .  .  .  .  .  .  H  .  .  .  
@@ -193,19 +182,18 @@ J  .  .  G  .  S  .  .  I  .
 
 TEST DATA:
 A  .  .  .  N  .  .  .  .  K  
-.  .  .  M  .  .  .  H  .  .  
-.  Q  .  .  .  .  .  .  .  .  
-.  .  .  L  .  .  .  .  .  R  
+.  .  .  M  .  .  .  .  .  .  
+.  Q  .  .  .  .  .  H  .  R  
+O  .  .  L  .  .  .  F  .  .  
 .  .  .  .  .  .  .  .  .  .  
-D  .  C  .  .  E  .  .  F  P  
-.  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  B  .  .  .  .  
-.  O  .  .  .  .  .  .  .  T  
-J  .  .  G  .  .  S  I  .  .  
+D  .  .  .  .  .  .  E  .  .  
+.  .  .  .  .  B  P  .  .  .  
+.  .  .  .  .  .  .  .  .  T  
+.  .  .  C  .  .  .  .  .  .  
+J  .  G  .  .  .  S  .  I  .  
 
-Accuracy: 55.00000000000001 %
+size:10, radius:2.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:35.0
 
-size: 10, radius: 3.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
 HN  .   .   .   A   Q   .   .   D   J   
 .   .   .   .   .   .   .   .   .   O   
@@ -219,20 +207,19 @@ K   .   .   L   .   .   .   .   .   S
 PR  .   F   .   .   E   .   .   .   IT  
 
 TEST DATA:
-H   .   .   A   .   .   .   .   .   J   
-N   .   .   .   .   .   .   D   .   .   
-M   .   .   .   .   .   .   .   .   O   
-.   .   .   Q   .   C   .   .   .   .   
-K   .   .   .   .   G   .   .   .   .   
-.   .   .   L   .   .   .   .   .   S   
-.   .   .   .   .   .   .   B   .   .   
+H   .   .   .   A   .   .   O   D   J   
+N   .   .   .   Q   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   .   E   .   .   .   
-PR  .   F   .   .   .   .   .   .   IT  
+.   .   M   .   .   G   .   .   .   .   
+.   .   .   .   .   .   .   .   .   .   
+K   .   .   .   .   .   .   .   .   C   
+.   .   .   L   .   .   .   .   .   S   
+.   .   .   .   .   B   .   .   .   .   
+.   F   .   .   .   .   .   .   .   .   
+PR  .   .   .   E   .   .   .   .   IT  
 
-Accuracy: 55.00000000000001 %
+size:10, radius:3.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:45.0
 
-size: 10, radius: 1.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 D  .  O  .  Q  .  .  .  .  .  
 .  .  C  .  .  .  .  .  .  .  
@@ -246,20 +233,19 @@ P  .  .  .  .  T  .  .  .  .
 .  .  .  .  .  .  .  .  .  .  
 
 TEST DATA:
-.  D  .  O  .  Q  .  .  .  .  
-.  C  .  .  .  J  .  .  .  .  
-.  B  S  G  .  .  .  .  .  .  
-L  E  .  A  .  .  .  .  .  .  
-.  .  .  .  .  M  .  .  .  .  
-.  .  .  K  .  .  N  .  .  .  
-P  F  .  .  T  .  .  .  .  .  
-.  R  .  .  .  .  .  .  .  .  
-.  .  H  I  .  .  .  .  .  .  
+.  .  .  O  .  Q  .  .  .  .  
+D  .  C  .  .  .  .  .  .  .  
+.  .  S  .  G  J  .  .  .  .  
+L  .  B  A  .  .  .  .  .  .  
+.  .  R  .  M  .  N  .  .  .  
+.  E  F  K  .  .  .  .  .  .  
+.  .  .  .  .  .  T  .  .  .  
+P  H  .  .  I  .  .  .  .  .  
+.  .  .  .  .  .  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  
 
-Accuracy: 40.0 %
+size:10, radius:1.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:45.0
 
-size: 10, radius: 2.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 P  R  .  H  .  N  M  .  .  K  
 .  .  .  .  .  .  .  .  .  .  
@@ -273,20 +259,19 @@ G  .  .  .  .  .  .  .  .  .
 .  C  .  O  .  .  .  I  .  T  
 
 TEST DATA:
-.   .   R   H   .   N   .   M   .   K   
-FP  .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   .   .   .   .   .   
-.   .   E   .   .   A   .   .   .   .   
-.   .   .   .   .   .   .   .   L   .   
-.   .   B   .   .   .   Q   .   .   .   
-S   .   .   .   .   .   .   .   .   J   
-.   .   .   C   .   .   .   .   .   .   
-G   .   .   .   D   .   .   .   .   .   
-.   .   .   .   O   .   I   .   .   T   
+.  .  R  .  .  N  .  .  .  K  
+.  .  .  H  .  .  .  M  .  .  
+E  .  F  .  .  .  .  .  .  .  
+.  .  B  .  A  .  .  .  .  L  
+.  .  .  P  .  .  .  .  .  .  
+.  .  .  .  .  .  Q  .  .  .  
+.  S  .  D  .  O  .  .  .  J  
+.  .  .  .  .  .  .  .  .  .  
+G  .  .  .  .  .  .  .  .  .  
+C  .  .  .  .  .  .  I  .  T  
 
-Accuracy: 45.0 %
+size:10, radius:2.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:35.0
 
-size: 10, radius: 3.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 P   .   R   .   H   .   N   M   .   K   
 F   .   .   .   .   .   .   .   .   .   
@@ -300,20 +285,19 @@ G   .   .   .   .   .   .   .   .   .
 C   .   .   L   .   J   .   .   .   IT  
 
 TEST DATA:
-P   .   R   .   H   .   N   M   .   K   
-F   .   .   .   .   .   .   .   .   .   
+.   .   FR  .   H   .   N   .   .   K   
+.   .   .   .   .   .   .   M   .   .   
+E   .   P   .   .   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   
-.   .   E   .   .   .   .   .   .   A   
-.   .   B   .   .   .   .   .   .   Q   
-.   .   .   .   .   C   D   .   .   .   
+.   B   .   .   .   D   .   .   .   AQ  
+.   .   .   .   .   .   .   .   O   .   
+.   .   .   .   .   .   .   .   G   .   
 .   .   .   .   .   .   .   .   .   .   
-S   .   .   .   .   .   .   O   .   .   
-.   G   .   .   .   .   .   .   .   .   
-.   .   .   .   L   J   .   .   .   IT  
+C   .   .   .   .   .   .   S   .   .   
+.   .   .   L   .   J   .   .   .   IT  
 
-Accuracy: 55.00000000000001 %
+size:10, radius:3.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:40.0
 
-size: 10, radius: 1.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
  .     .     .     .     .     .     .     .     .     .    
  .     .     A     .     .     .     .     .     .     .    
@@ -328,19 +312,18 @@ DATA:
 
 TEST DATA:
 .   .   .   .   .   .   .   .   .   .   
-.   .   A   .   .   .   .   .   .   .   
-.   DQ  .   HK  .   .   .   .   .   .   
-JO  L   FP  .   N   .   .   .   .   .   
-.   CG  BE  R   M   .   .   .   .   .   
-.   S   .   .   .   .   .   .   .   .   
-.   .   .   .   I   T   .   .   .   .   
-.   .   .   .   .   .   .   .   .   .   
+.   .   AQ  .   .   .   .   .   .   .   
+.   O   PR  .   .   .   .   .   .   .   
+J   D   EL  FK  MN  .   .   .   .   .   
+.   CG  B   H   .   .   .   .   .   .   
+.   .   S   .   .   .   .   .   .   .   
+.   .   .   .   I   .   .   .   .   .   
+.   .   .   .   T   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   
 
-Accuracy: 55.00000000000001 %
+size:10, radius:1.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:65.0
 
-size: 10, radius: 2.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
 E   F   .   K   .   .   .   .   .   .   
 L   .   .   .   H   .   N   .   .   .   
@@ -354,20 +337,19 @@ C   .   .   .   .   .   .   .   .   .
 .   .   .   .   .   .   .   .   .   .   
 
 TEST DATA:
-.   .   .   K   .   .   .   .   .   .   
-.   F   P   .   H   .   .   .   .   .   
-EL  .   R   .   .   .   MN  .   .   .   
-B   .   .   A   .   .   .   .   .   .   
-.   D   .   Q   .   J   .   .   .   .   
-C   .   O   .   .   .   .   .   .   .   
+E   .   F   K   .   .   .   .   .   .   
+L   .   .   H   .   .   N   .   .   .   
+B   P   .   R   .   .   M   .   .   .   
+.   .   .   A   .   .   .   .   .   .   
+D   .   .   Q   .   .   .   J   .   .   
+.   .   .   GO  .   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   
-.   .   .   I   .   T   .   .   .   .   
-S   G   .   .   .   .   .   .   .   .   
+C   .   S   .   I   .   .   .   .   .   
+.   .   .   .   T   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   
 
-Accuracy: 40.0 %
+size:10, radius:2.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:45.0
 
-size: 10, radius: 3.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
 FP  .   R   .   K   H   .   .   MN  .   
 E   .   .   .   .   .   .   .   .   .   
@@ -381,20 +363,19 @@ G   .   .   .   .   .   .   .   .   .
 .   .   Q   .   .   .   IT  .   .   .   
 
 TEST DATA:
-F   P   R   .   .   HK  .   .   .   .   
-.   .   .   .   .   .   .   .   .   MN  
+E   .   F   R   H   K   .   .   M   .   
+.   .   .   .   .   .   .   .   .   N   
+.   .   P   .   .   .   .   .   .   .   
+L   B   .   .   .   .   .   .   .   .   
+.   .   .   .   Q   AD  .   .   .   .   
+.   .   .   .   .   .   .   .   J   .   
+CS  .   .   .   O   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   
-.   EL  .   .   A   .   .   .   .   .   
-B   .   .   .   .   .   .   .   J   .   
-.   .   C   .   .   .   .   .   .   .   
-S   .   .   .   D   .   .   .   .   .   
-.   .   .   O   .   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   
-.   G   Q   .   .   .   T   I   .   .   
+.   G   .   .   .   .   T   I   .   .   
 
-Accuracy: 40.0 %
+size:10, radius:3.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:15.0
 
-size: 15, radius: 1.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
 .  .  .  .  .  .  I  .  .  .  .  .  .  .  .  
@@ -413,25 +394,24 @@ F  .  A  .  .  .  .  Q  .  .  .  .  .  .  .
 E  .  .  L  .  S  .  .  .  G  .  .  C  .  .  
 
 TEST DATA:
-.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   I   .   .   .   .   .   .   .   .   .   
-.   .   .   .   T   .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   MN  .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   K   .   .   .   .   .   .   .   .   .   
-.   H   .   .   .   .   .   .   .   .   .   .   .   .   .   
-R   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   .   .   .   .   J   .   .   .   .   D   
-.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
-FP  .   A   .   B   .   .   .   O   .   .   .   .   .   .   
-.   .   .   .   E   .   .   .   .   .   .   .   C   .   .   
-.   .   .   L   .   .   .   Q   G   .   .   .   .   .   .   
-.   .   .   .   .   .   S   .   .   .   .   .   .   .   .   
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  .  I  .  .  .  .  .  .  .  .  .  
+.  .  T  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  N  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  .  K  .  .  J  .  .  .  .  .  .  
+.  H  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  R  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  .  .  .  D  .  .  .  
+P  .  .  .  .  .  .  M  .  .  .  .  .  .  .  
+.  .  A  .  .  .  .  Q  .  .  .  .  .  .  .  
+F  .  .  .  .  .  .  .  O  .  .  .  .  .  .  
+E  B  .  .  .  S  .  .  G  .  C  .  .  .  .  
+.  .  .  L  .  .  .  .  .  .  .  .  .  .  .  
 
-Accuracy: 0.0 %
+size:15, radius:1.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:15.0
 
-size: 15, radius: 2.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
 K  .  .  .  .  .  N  .  .  .  H  .  .  .  R  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
@@ -450,25 +430,24 @@ J  .  .  .  .  .  .  .  .  .  .  .  .  .  .
 B  .  .  .  S  .  .  .  G  .  .  .  I  .  .  
 
 TEST DATA:
-.  K  .  M  .  .  N  .  .  .  .  H  .  .  .  
+.  K  .  .  .  .  N  .  .  .  .  .  .  .  R  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  R  .  .  
+.  .  .  .  .  .  .  .  .  .  .  H  .  .  .  
+.  .  M  .  .  .  .  .  .  .  .  .  P  .  .  
+.  .  .  .  .  .  .  .  .  .  B  .  .  .  .  
+L  .  .  D  .  .  .  A  .  .  .  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  A  .  E  .  .  .  P  
-.  L  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  F  
-.  .  .  .  .  .  D  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  C  .  .  .  .  .  .  .  .  
+J  .  .  .  .  .  .  .  .  .  .  .  .  .  F  
+.  .  .  .  .  .  .  .  .  .  .  .  .  E  .  
 .  .  .  .  .  .  .  .  .  .  Q  .  .  .  .  
-J  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  O  .  .  .  .  .  .  .  .  .  .  .  T  .  
+.  .  .  .  .  .  .  .  O  .  .  .  .  .  T  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  S  .  .  .  .  G  .  .  .  .  .  
-B  .  .  .  .  .  .  .  .  .  .  I  .  .  .  
+.  .  .  .  .  .  C  .  .  .  .  .  .  .  .  
+.  .  .  S  .  .  .  .  .  G  .  .  I  .  .  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
 
-Accuracy: 10.0 %
+size:15, radius:2.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:15.0
 
-size: 15, radius: 3.0, learningRate: 0.5, endLearningRate: 0.18403171344231165 learnFunc: sLR:2000
 DATA:
 .  N  .  .  M  .  .  .  K  .  .  .  .  R  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
@@ -487,25 +466,24 @@ Q  .  .  .  .  .  .  .  .  .  .  .  .  .  .
 J  .  .  .  D  .  .  .  C  .  .  .  .  .  I  
 
 TEST DATA:
-.  .  N  .  .  .  .  K  .  .  .  .  .  .  .  
-.  .  .  .  M  .  .  .  .  .  .  .  .  .  R  
-H  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  N  .  .  .  .  K  .  .  .  .  R  .  .  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+H  .  .  .  M  .  .  .  .  .  .  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  P  
-.  .  .  .  .  .  L  .  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  L  .  .  .  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-A  .  .  .  .  .  .  .  .  E  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  F  
-.  .  .  .  G  .  .  .  .  B  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+A  .  .  .  .  .  .  .  .  .  .  .  .  .  F  
+.  .  .  .  .  .  .  B  .  .  .  .  .  .  E  
+.  .  .  .  G  .  .  .  .  .  .  .  .  .  .  
 Q  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  O  .  .  .  .  .  .  .  .  .  .  .  T  
+.  O  .  .  .  .  .  .  .  .  .  .  .  .  T  
 .  .  .  .  .  .  .  .  .  .  S  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-J  .  .  .  .  D  .  C  .  .  .  .  I  .  .  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+J  .  .  D  .  .  .  .  .  .  C  .  .  I  .  
 
-Accuracy: 35.0 %
+size:15, radius:3.0, learningRate:0.5, endLearnRate:0.1840317, accuracy:25.0
 
-size: 15, radius: 1.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 L  .  D  .  Q  .  .  .  .  .  .  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
@@ -524,25 +502,24 @@ J  .  .  .  .  .  T  .  .  .  .  .  .  .  .
 .  .  .  B  .  P  .  .  .  .  .  .  .  .  .  
 
 TEST DATA:
-.  L  .  .  .  Q  .  .  .  .  .  .  .  .  .  
-.  C  D  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  O  .  .  .  A  .  .  .  .  .  .  .  .  
-.  .  .  G  .  .  .  .  .  .  .  .  .  .  .  
-.  J  .  .  I  .  .  T  .  .  .  .  .  .  .  
+L  .  D  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  O  Q  .  A  .  .  .  .  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  S  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  G  .  .  .  .  .  .  .  .  .  .  
+.  J  .  C  .  .  .  T  .  .  .  .  .  .  .  
+.  S  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  I  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  .  M  .  .  .  .  .  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  M  .  N  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  N  .  .  .  .  .  .  .  
 .  .  .  .  K  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  H  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  F  E  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  B  .  P  R  .  .  .  .  .  .  .  .  
+.  F  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  E  .  .  .  .  .  H  .  .  .  .  .  .  
+.  .  .  B  .  .  .  .  R  .  .  .  .  .  .  
+.  .  .  .  P  .  .  .  .  .  .  .  .  .  .  
 
-Accuracy: 20.0 %
+size:15, radius:1.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:10.0
 
-size: 15, radius: 2.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 A  .  .  .  Q  .  .  .  .  .  .  C  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
@@ -561,25 +538,24 @@ E  .  .  .  .  .  .  .  .  .  .  .  .  .  .
 P  .  .  R  .  .  .  .  .  .  N  .  .  .  .  
 
 TEST DATA:
-A  .  .  Q  .  .  .  .  C  .  .  .  .  .  .  
+A  .  .  Q  .  .  O  .  .  .  .  .  C  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  D  .  .  .  .  .  .  .  .  .  .  .  
-J  .  .  .  .  .  .  .  O  .  .  .  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  B  .  .  .  .  .  .  .  .  
-G  .  .  .  .  .  .  .  I  .  .  .  .  T  .  
-.  .  S  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  L  .  .  .  .  .  .  .  .  
-E  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  K  .  
-.  .  .  .  F  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  M  .  .  .  
+J  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  D  .  .  .  .  .  I  .  .  .  .  T  
+G  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  S  .  .  .  .  .  .  .  .  .  .  .  
+B  .  .  .  .  .  .  L  .  .  .  K  .  .  .  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
+.  .  E  .  .  F  .  .  .  .  .  .  .  .  M  
+.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
 P  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  R  H  .  .  .  .  N  .  .  .  
+.  .  .  .  R  .  H  .  .  .  .  N  .  .  .  
 
-Accuracy: 20.0 %
+size:15, radius:2.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:10.0
 
-size: 15, radius: 3.0, learningRate: 0.1, endLearningRate: 0.03680634268846233 learnFunc: sLR:2000
 DATA:
 C  .  .  O  .  .  .  J  .  .  .  G  .  .  .  
 .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
@@ -598,25 +574,24 @@ E  .  .  .  .  .  .  .  .  H  .  .  .  .  .
 F  .  .  P  .  .  R  .  .  .  .  N  .  .  M  
 
 TEST DATA:
-.  .  .  .  .  .  .  J  .  .  .  G  .  .  .  
-C  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  D  .  .  .  .  .  .  .  .  .  .  .  S  
-.  .  .  .  .  .  .  .  O  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  I  .  .  .  
-A  .  .  .  .  .  Q  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  L  .  .  .  .  .  .  E  .  .  .  T  .  .  
-.  .  .  .  .  B  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  H  .  .  .  .  K  
-.  .  .  .  .  .  .  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  R  .  .  .  .  .  .  .  .  
-.  .  .  .  .  .  .  .  .  .  .  .  .  M  .  
-.  F  .  P  .  .  .  .  .  .  .  N  .  .  .  
+.   .   .   .   .   .   .   J   .   .   G   .   .   .   .   
+.   .   .   .   .   .   .   .   .   .   .   .   C   .   .   
+.   .   .   .   D   .   .   .   .   .   .   .   .   .   .   
+.   .   .   .   .   .   .   .   .   .   .   .   .   .   S   
+A   .   .   .   .   O   .   .   .   .   .   .   .   .   .   
+.   .   .   .   .   Q   .   .   .   .   I   .   .   .   .   
+.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
+.   .   .   .   .   .   .   .   .   .   .   .   T   .   .   
+.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
+L   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
+.   .   .   B   .   .   .   .   .   H   .   .   .   .   K   
+.   .   .   .   P   .   .   .   .   .   .   .   .   .   .   
+.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
+.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
+EF  .   .   .   .   .   .   R   .   .   .   N   .   .   M   
 
-Accuracy: 45.0 %
+size:15, radius:3.0, learningRate:0.1, endLearnRate:0.03680634, accuracy:35.0
 
-size: 15, radius: 1.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
  .    .   FP    .    .    .    .    .    .    .    .    .    .    .    .   
  .    E    R    K    .    .    .    .    .    .    .    .    .    .    .   
@@ -635,11 +610,11 @@ DATA:
  .    .    .    .    .    .    .    .    I    .    .    .    .    .    .   
 
 TEST DATA:
- .    .   FPR   .    .    .    .    .    .    .    .    .    .    .    .   
- .    E    .    K    M    .    .    .    .    .    .    .    .    .    .   
- .    L   AQ    H    N    .    .    .    .    .    .    .    .    .    .   
- .   CG   DJO   .    .    .    .    .    .    .    .    .    .    .    .   
- .    .   BS    .    T    .    .    .    .    .    .    .    .    .    .   
+ .    .   EFP   .    .    .    .    .    .    .    .    .    .    .    .   
+ .    B    R   HK    .    .    .    .    .    .    .    .    .    .    .   
+ .    L   AOQ   M    N    .    .    .    .    .    .    .    .    .    .   
+ .    .    G    D    .    .    .    .    .    .    .    .    .    .    .   
+ .    C   JS    .    T    .    .    .    .    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
@@ -651,9 +626,8 @@ TEST DATA:
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    I    .    .    .    .    .    .   
 
-Accuracy: 85.0 %
+size:15, radius:1.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:55.0
 
-size: 15, radius: 2.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
 MN  H   A   .   R   P   .   .   .   .   .   .   .   .   .   
 K   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
@@ -672,15 +646,15 @@ Q   G   .   .   .   I   T   .   .   .   .   .   .   .   .
 .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
 
 TEST DATA:
-MN  .   .   A   R   P   .   .   .   .   .   .   .   .   .   
-K   H   .   .   .   .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   .   F   .   .   .   .   .   .   .   .   
-J   .   .   B   E   .   .   .   .   .   .   .   .   .   .   
-O   D   .   S   .   .   .   .   .   .   .   .   .   .   .   
-.   .   .   .   .   .   T   .   .   .   .   .   .   .   .   
-.   .   .   .   .   I   .   .   .   .   .   .   .   .   .   
-Q   G   L   .   .   .   .   .   .   .   .   .   .   .   .   
-.   C   .   .   .   .   .   .   .   .   .   .   .   .   .   
+N   .   H   A   R   .   F   .   .   .   .   .   .   .   .   
+KM  .   .   .   P   .   .   .   .   .   .   .   .   .   .   
+.   D   .   B   .   .   .   .   .   .   .   .   .   .   .   
+J   .   .   .   .   .   E   .   .   .   .   .   .   .   .   
+O   .   .   S   .   .   .   .   .   .   .   .   .   .   .   
+.   .   .   C   .   .   T   .   .   .   .   .   .   .   .   
+GQ  .   .   .   .   I   .   .   .   .   .   .   .   .   .   
+.   .   .   L   .   .   .   .   .   .   .   .   .   .   .   
+.   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
@@ -688,9 +662,8 @@ Q   G   L   .   .   .   .   .   .   .   .   .   .   .   .
 .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
 .   .   .   .   .   .   .   .   .   .   .   .   .   .   .   
 
-Accuracy: 60.0 %
+size:15, radius:2.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:40.0
 
-size: 15, radius: 3.0, learningRate: 0.01, endLearningRate: 0.003680634268846233 learnFunc: sLR:2000
 DATA:
 KMN   .    H    .    .    R    P    .    F    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    E    .    .    .    .    .   
@@ -709,21 +682,21 @@ DO    .    .    C    .    .    .    .    I    .    .    .    .    .    .
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
 
 TEST DATA:
-KMN   .    H    .    R    .    .    .   FP    .    .    .    .    .    .   
+KMN   .    .    H    R    .    .    .    .    F    .    .    .    .    .   
+ .    .    .    .    .    P    .    .    .    E    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
+ .    .    .    .    B    .    .    .    .    .    .    .    .    .    .   
+AQ    .    G    .    .    .    .    .    .    .    .    .    .    .    .   
+ O    .    .    .    .    S    .    .    .    .    .    .    .    .    .   
+ .    .    .    .    .    C    .    .    .    T    .    .    .    .    .   
+ .    .    .    .    .    .    .    .    I    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
- A    .    .    .    .    .    .    .    E    .    .    .    .    .    .   
- Q    .    .    .    .    .    B    .    .    .    .    .    .    .    .   
- .    .    .    G    .    .    .    .    .    .    .    .    .    .    .   
- D    .    .    .    .    S    .    .    .    T    .    .    .    .    .   
- O    .    C    .    .    .    .    .    .    .    .    .    .    .    .   
- .    .    .    .    .    .    .    I    .    .    .    .    .    .    .   
- J    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
- .    .    .    L    .    .    .    .    .    .    .    .    .    .    .   
+ D    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
+ .    .    .    L    J    .    .    .    .    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
  .    .    .    .    .    .    .    .    .    .    .    .    .    .    .   
 
-Accuracy: 55.00000000000001 %
+size:15, radius:3.0, learningRate:0.01, endLearnRate:0.003680634, accuracy:45.0
 

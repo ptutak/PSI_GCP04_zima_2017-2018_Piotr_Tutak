@@ -43,6 +43,7 @@ LEARN_RATE=[0.5,0.1,0.01]
 RADIUS = [1.0,2.0,3.0]
 STDOUT=sys.stdout
 sys.stdout=open('results.txt','w')
+resFile=open('results-results.txt','w')
 try:
     for s in SIZE:
         np.random.seed(12)
@@ -71,7 +72,6 @@ try:
                     results[res['coords']].add(x[1])
                     if len(results[res['coords']])>maxLen:
                         maxLen=len(results[res['coords']])
-                print("size: {0}, radius: {1}, learningRate: {2}, endLearningRate: {3}".format(s,r,l,layer.actualLearnRate),"learnFunc:",layer.learnFunc.__name__)
                 print('DATA:')
                 formatStr="{0:^"+str(maxLen)+"}  "
                 toPrint=""
@@ -109,9 +109,11 @@ try:
                     if res[0][1]==s-1:
                         toPrint+="\n"
                 print(toPrint)
+                print("size:{0}, radius:{1}, learningRate:{2}, endLearnRate:{3:.7}, accuracy:{4:.3}\n".format(s,r,l,layer.actualLearnRate,acc/20*100))
+                print("{0} {1} {2} {3} {4:.3}".format(s,r,l,layer.actualLearnRate,acc/20*100),file=resFile)
                 
-                print('Accuracy:',acc/20*100,"%\n")
 finally:
     sys.stdout.close()
     sys.stdout=STDOUT
+    resFile.close()
     pass
